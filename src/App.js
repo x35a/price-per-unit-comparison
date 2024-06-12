@@ -30,8 +30,10 @@ function Table() {
     const tableRowsCopy = tableRows.map((row) => ({ ...row }));
     tableRowsCopy[rowIndex].price = price;
     const bestPriceRow = findBestPriceRow(tableRowsCopy);
-    console.log(tableRowsCopy);
-    //tableRowsCopy[rowIndex].rate = rate;
+    tableRowsCopy[rowIndex].rate = getPriceToUnitRate(
+      price,
+      tableRowsCopy[rowIndex].unit,
+    );
     setTableRows(tableRowsCopy);
     bestPriceRow
       ? setBestRowIndex(bestPriceRow.index)
@@ -41,7 +43,10 @@ function Table() {
     const tableRowsCopy = tableRows.map((row) => ({ ...row }));
     tableRowsCopy[rowIndex].unit = unit;
     const bestPriceRow = findBestPriceRow(tableRowsCopy);
-    //tableRowsCopy[rowIndex] = rate;
+    tableRowsCopy[rowIndex].rate = getPriceToUnitRate(
+      tableRowsCopy[rowIndex].price,
+      unit,
+    );
     setTableRows(tableRowsCopy);
     bestPriceRow
       ? setBestRowIndex(bestPriceRow.index)
@@ -55,8 +60,8 @@ function Table() {
 
   function findBestPriceRow(tableRows) {
     let rates = tableRows.map((row, index) => {
-      row.index = index;
-      return row;
+      let newrow = { ...row, index: index };
+      return newrow;
     });
     rates = rates.filter((row) => row.price && row.unit);
     //
