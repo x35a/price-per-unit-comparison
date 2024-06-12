@@ -14,7 +14,7 @@ export default function App() {
 function Table() {
   const tableRow = {
     addRow() {
-      return { price: undefined, unit: undefined };
+      return { price: undefined, unit: undefined, rate: undefined };
     },
     priceKey: "price",
     unitKey: "unit",
@@ -30,6 +30,8 @@ function Table() {
     const tableRowsCopy = tableRows.map((row) => ({ ...row }));
     tableRowsCopy[rowIndex].price = price;
     const bestPriceRow = findBestPriceRow(tableRowsCopy);
+    console.log(tableRowsCopy);
+    //tableRowsCopy[rowIndex].rate = rate;
     setTableRows(tableRowsCopy);
     bestPriceRow
       ? setBestRowIndex(bestPriceRow.index)
@@ -39,10 +41,16 @@ function Table() {
     const tableRowsCopy = tableRows.map((row) => ({ ...row }));
     tableRowsCopy[rowIndex].unit = unit;
     const bestPriceRow = findBestPriceRow(tableRowsCopy);
+    //tableRowsCopy[rowIndex] = rate;
     setTableRows(tableRowsCopy);
     bestPriceRow
       ? setBestRowIndex(bestPriceRow.index)
       : setBestRowIndex(undefined);
+  }
+
+  function getPriceToUnitRate(price, unit) {
+    if (!price || !unit) return;
+    return price / unit;
   }
 
   function findBestPriceRow(tableRows) {
@@ -51,17 +59,22 @@ function Table() {
       return row;
     });
     rates = rates.filter((row) => row.price && row.unit);
-    console.log(rates);
+    //
     if (!rates.length) return;
-    rates = rates.map((row) => row.price / row.unit);
 
-    const rates2 = rates.map((value, index) => ({ value, index }));
-    rates2.sort((a, b) => a.value - b.value);
-    //console.log(rates2);
-    return rates2[0];
+    rates = rates.map((row) => {
+      row.rate = row.price / row.unit;
+      return row;
+    });
+
+    //const rates2 = rates.map((value, index) => ({ value, index }));
+    rates.sort((a, b) => a.rate - b.rate);
+    //console.log(rates);
+    return rates[0];
   }
 
   //console.log(tableRows);
+
   const allrows = tableRows.map((row, index) => {
     return (
       <div key={index} className={bestRowIndex == index ? "bestrow" : ""}>
@@ -76,6 +89,9 @@ function Table() {
             type="number"
             onChange={(e) => handleUnitChange(index, e.target.value)}
           />
+        </span>
+        <span>
+          <input type="number" placeholder={row.rate} disabled />
         </span>
       </div>
     );
