@@ -12,10 +12,16 @@ export default function App() {
 }
 
 function Table() {
-  //const newRow = (price = "", unit = null) => ({ price: price, unit: unit });
+  const tableRow = {
+    addRow() {
+      return { price: undefined, unit: undefined };
+    },
+    priceKey: "price",
+    unitKey: "unit",
+  };
   const [tableRows, setTableRows] = useState([
-    { price: "", unit: "" },
-    { price: "", unit: "" },
+    tableRow.addRow(),
+    tableRow.addRow(),
   ]);
   const [bestRowIndex, setBestRowIndex] = useState();
 
