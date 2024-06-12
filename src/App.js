@@ -24,24 +24,29 @@ function Table() {
     tableRowsCopy[rowIndex].price = price;
     const bestPriceRow = findBestPriceRow(tableRowsCopy);
     setTableRows(tableRowsCopy);
-    setBestRowIndex(bestPriceRow.index);
+    bestPriceRow
+      ? setBestRowIndex(bestPriceRow.index)
+      : setBestRowIndex(undefined);
   }
   function handleUnitChange(rowIndex, unit) {
     const tableRowsCopy = tableRows.map((row) => ({ ...row }));
     tableRowsCopy[rowIndex].unit = unit;
     const bestPriceRow = findBestPriceRow(tableRowsCopy);
     setTableRows(tableRowsCopy);
-    setBestRowIndex(bestPriceRow.index);
+    bestPriceRow
+      ? setBestRowIndex(bestPriceRow.index)
+      : setBestRowIndex(undefined);
   }
 
   function findBestPriceRow(tableRows) {
-    const rates = tableRows.map((row) => {
-      if (!row.price || !row.unit) return;
-      return row.price / row.unit;
-    });
+    let rates = tableRows.filter((row) => row.price && row.unit);
+
+    if (!rates.length) return;
+    rates = rates.map((row) => row.price / row.unit);
 
     const rates2 = rates.map((value, index) => ({ value, index }));
     rates2.sort((a, b) => a.value - b.value);
+
     console.log(rates2);
     return rates2[0];
   }
@@ -50,7 +55,7 @@ function Table() {
 
   return (
     <div>
-      <div className={bestRowIndex ? "bestrow" : ""}>
+      <div className={bestRowIndex == 0 ? "bestrow" : ""}>
         <span>
           <input
             type="number"
@@ -64,7 +69,7 @@ function Table() {
           />
         </span>
       </div>
-      <div>
+      <div className={bestRowIndex == 1 ? "bestrow" : ""}>
         <span>
           <input
             type="number"
