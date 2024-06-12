@@ -19,6 +19,7 @@ function Table() {
     priceKey: "price",
     unitKey: "unit",
   };
+
   const [tableRows, setTableRows] = useState([
     tableRow.addRow(),
     tableRow.addRow(),
@@ -45,50 +46,40 @@ function Table() {
   }
 
   function findBestPriceRow(tableRows) {
-    let rates = tableRows.filter((row) => row.price && row.unit);
-
+    let rates = tableRows.map((row, index) => {
+      row.index = index;
+      return row;
+    });
+    rates = rates.filter((row) => row.price && row.unit);
+    console.log(rates);
     if (!rates.length) return;
     rates = rates.map((row) => row.price / row.unit);
 
     const rates2 = rates.map((value, index) => ({ value, index }));
     rates2.sort((a, b) => a.value - b.value);
-
-    console.log(rates2);
+    //console.log(rates2);
     return rates2[0];
   }
 
   //console.log(tableRows);
+  const allrows = tableRows.map((row, index) => {
+    return (
+      <div key={index} className={bestRowIndex == index ? "bestrow" : ""}>
+        <span>
+          <input
+            type="number"
+            onChange={(e) => handlePriceChange(index, e.target.value)}
+          />
+        </span>
+        <span>
+          <input
+            type="number"
+            onChange={(e) => handleUnitChange(index, e.target.value)}
+          />
+        </span>
+      </div>
+    );
+  });
 
-  return (
-    <div>
-      <div className={bestRowIndex == 0 ? "bestrow" : ""}>
-        <span>
-          <input
-            type="number"
-            onChange={(e) => handlePriceChange(0, e.target.value)}
-          />
-        </span>
-        <span>
-          <input
-            type="number"
-            onChange={(e) => handleUnitChange(0, e.target.value)}
-          />
-        </span>
-      </div>
-      <div className={bestRowIndex == 1 ? "bestrow" : ""}>
-        <span>
-          <input
-            type="number"
-            onChange={(e) => handlePriceChange(1, e.target.value)}
-          />
-        </span>
-        <span>
-          <input
-            type="number"
-            onChange={(e) => handleUnitChange(1, e.target.value)}
-          />
-        </span>
-      </div>
-    </div>
-  );
+  return <>{allrows}</>;
 }
