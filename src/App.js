@@ -36,59 +36,25 @@ function Table() {
       tableRowsCopy[rowIndex].unit,
     );
 
-    setTableRows(tableRowsCopy); // save new input value
-  }
+    const bestPriceRowIndex = findBestPriceRowIndex(tableRowsCopy);
 
-  // function handlePriceChange(rowIndex, price) {
-  //   const tableRowsCopy = tableRows.map((row) => ({ ...row }));
-  //   tableRowsCopy[rowIndex].price = price;
-  //   const bestPriceRow = findBestPriceRow(tableRowsCopy);
-  //   tableRowsCopy[rowIndex].rate = getPriceToUnitRate(
-  //     price,
-  //     tableRowsCopy[rowIndex].unit,
-  //   );
-  //   setTableRows(tableRowsCopy);
-  //   bestPriceRow
-  //     ? setBestRowIndex(bestPriceRow.index)
-  //     : setBestRowIndex(undefined);
-  // }
-  // function handleUnitChange(rowIndex, unit) {
-  //   const tableRowsCopy = tableRows.map((row) => ({ ...row }));
-  //   tableRowsCopy[rowIndex].unit = unit;
-  //   const bestPriceRow = findBestPriceRow(tableRowsCopy);
-  //   tableRowsCopy[rowIndex].rate = getPriceToUnitRate(
-  //     tableRowsCopy[rowIndex].price,
-  //     unit,
-  //   );
-  //   setTableRows(tableRowsCopy);
-  //   bestPriceRow
-  //     ? setBestRowIndex(bestPriceRow.index)
-  //     : setBestRowIndex(undefined);
-  // }
+    setTableRows(tableRowsCopy);
+    setBestRowIndex(bestPriceRowIndex);
+  }
 
   function getPriceToUnitRate(price, unit) {
     if (!price || !unit) return;
     return price / unit;
   }
 
-  function findBestPriceRow(tableRows) {
-    let rates = tableRows.map((row, index) => {
-      let newrow = { ...row, index: index };
-      return newrow;
-    });
-    rates = rates.filter((row) => row.price && row.unit);
-    //
-    if (!rates.length) return;
-
-    rates = rates.map((row) => {
-      row.rate = row.price / row.unit;
-      return row;
-    });
-
-    //const rates2 = rates.map((value, index) => ({ value, index }));
-    rates.sort((a, b) => a.rate - b.rate);
-    //console.log(rates);
-    return rates[0];
+  function findBestPriceRowIndex(tableRows) {
+    let rows = tableRows
+      .map((row, index) => ({ ...row, index: index }))
+      .filter((row) => row.price && row.unit);
+    if (!rows.length) return;
+    rows = rows.map((row) => ({ ...row, rate: row.price / row.unit }));
+    rows.sort((a, b) => a.rate - b.rate);
+    return rows[0].index;
   }
 
   //console.log(tableRows);
