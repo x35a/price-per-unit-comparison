@@ -42,21 +42,6 @@ function Table() {
     setBestRowIndex(bestPriceRowIndex);
   }
 
-  function getPriceToUnitRate(price, unit) {
-    if (!price || !unit) return;
-    return price / unit;
-  }
-
-  function findBestPriceRowIndex(tableRows) {
-    let rows = tableRows
-      .map((row, index) => ({ ...row, index: index }))
-      .filter((row) => row.price && row.unit);
-    if (!rows.length) return;
-    rows = rows.map((row) => ({ ...row, rate: row.price / row.unit }));
-    rows.sort((a, b) => a.rate - b.rate);
-    return rows[0].index;
-  }
-
   const tableRowsMarkup = tableRows.map((row, index) => {
     return (
       <div key={index} className={bestRowIndex == index ? "bestrow" : ""}>
@@ -84,4 +69,19 @@ function Table() {
   });
 
   return <>{tableRowsMarkup}</>;
+}
+
+function getPriceToUnitRate(price, unit) {
+  if (!price || !unit) return;
+  return price / unit;
+}
+
+function findBestPriceRowIndex(tableRows) {
+  let rows = tableRows
+    .map((row, index) => ({ ...row, index: index }))
+    .filter((row) => row.price && row.unit);
+  if (!rows.length) return;
+  rows = rows.map((row) => ({ ...row, rate: row.price / row.unit }));
+  rows.sort((a, b) => a.rate - b.rate);
+  return rows[0].index;
 }
