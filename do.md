@@ -1,4 +1,3 @@
-- add back/forward buttons
 - add icons on buttons
 - add styles
 - add night theme
