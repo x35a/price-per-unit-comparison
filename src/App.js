@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./styles.css";
 import "./input.css";
+import * as icon from "./icons";
 
 const style = {
   button: "bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded",
@@ -97,23 +98,26 @@ const Table = () => {
           removeRow={removeRow}
         />
       ))}
-      <button onClick={addNewRow} className={style.button}>
-        Add new row
-      </button>
-      <div>
+      <div className="my-2">
+        <button onClick={addNewRow} className={style.button}>
+          {icon.plus}
+        </button>
+      </div>
+      <div className="my-2">
         <button
           onClick={goBack}
           disabled={historyPoint > 0 ? false : true}
-          className={style.button}
+          className={`mx-1 + ${style.button}`}
         >
-          Back
+          {icon.arrowLeft}
         </button>
         <button
+          className="mx-1"
           onClick={goForward}
           disabled={historyPoint < history.length - 1 ? false : true}
-          className={style.button}
+          className={`mx-1 + ${style.button}`}
         >
-          Forward
+          {icon.arrowRight}
         </button>
       </div>
     </>
@@ -165,7 +169,7 @@ const TableRow = ({
         }}
         className={style.buttonRed}
       >
-        Remove row
+        {icon.trash}
       </button>
     </div>
   );
