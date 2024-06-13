@@ -45,6 +45,11 @@ const Table = () => {
     setTableRows(tableRowsCopy);
   };
 
+  const removeRow = (rowIndex) => {
+    const tableRowsCopy = tableRows.filter((row, index) => index != rowIndex);
+    setTableRows(tableRowsCopy);
+  };
+
   return (
     <>
       {tableRows.map((row, index) => (
@@ -56,6 +61,7 @@ const Table = () => {
           unitKey={inputKey.unit}
           bestRowIndex={bestRowIndex}
           handleInputChange={handleInputChange}
+          removeRow={removeRow}
         />
       ))}
       <button onClick={addNewRow}>Add new row</button>
@@ -70,6 +76,7 @@ const TableRow = ({
   unitKey,
   bestRowIndex,
   handleInputChange,
+  removeRow,
 }) => {
   const isBestRow = bestRowIndex === index;
 
@@ -90,6 +97,13 @@ const TableRow = ({
       <span>
         <input type="number" placeholder={rate} disabled />
       </span>
+      <button
+        onClick={() => {
+          removeRow(index);
+        }}
+      >
+        Remove row
+      </button>
     </div>
   );
 };
