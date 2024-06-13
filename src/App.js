@@ -26,32 +26,45 @@ function Table() {
   ]);
   const [bestRowIndex, setBestRowIndex] = useState();
 
-  function handlePriceChange(rowIndex, price) {
+  function handleInputChange(rowIndex, inputKey, value) {
     const tableRowsCopy = tableRows.map((row) => ({ ...row }));
-    tableRowsCopy[rowIndex].price = price;
-    const bestPriceRow = findBestPriceRow(tableRowsCopy);
-    tableRowsCopy[rowIndex].rate = getPriceToUnitRate(
-      price,
-      tableRowsCopy[rowIndex].unit,
-    );
-    setTableRows(tableRowsCopy);
-    bestPriceRow
-      ? setBestRowIndex(bestPriceRow.index)
-      : setBestRowIndex(undefined);
-  }
-  function handleUnitChange(rowIndex, unit) {
-    const tableRowsCopy = tableRows.map((row) => ({ ...row }));
-    tableRowsCopy[rowIndex].unit = unit;
-    const bestPriceRow = findBestPriceRow(tableRowsCopy);
+
+    tableRowsCopy[rowIndex][inputKey] = value;
+
     tableRowsCopy[rowIndex].rate = getPriceToUnitRate(
       tableRowsCopy[rowIndex].price,
-      unit,
+      tableRowsCopy[rowIndex].unit,
     );
-    setTableRows(tableRowsCopy);
-    bestPriceRow
-      ? setBestRowIndex(bestPriceRow.index)
-      : setBestRowIndex(undefined);
+
+    setTableRows(tableRowsCopy); // save new input value
   }
+
+  // function handlePriceChange(rowIndex, price) {
+  //   const tableRowsCopy = tableRows.map((row) => ({ ...row }));
+  //   tableRowsCopy[rowIndex].price = price;
+  //   const bestPriceRow = findBestPriceRow(tableRowsCopy);
+  //   tableRowsCopy[rowIndex].rate = getPriceToUnitRate(
+  //     price,
+  //     tableRowsCopy[rowIndex].unit,
+  //   );
+  //   setTableRows(tableRowsCopy);
+  //   bestPriceRow
+  //     ? setBestRowIndex(bestPriceRow.index)
+  //     : setBestRowIndex(undefined);
+  // }
+  // function handleUnitChange(rowIndex, unit) {
+  //   const tableRowsCopy = tableRows.map((row) => ({ ...row }));
+  //   tableRowsCopy[rowIndex].unit = unit;
+  //   const bestPriceRow = findBestPriceRow(tableRowsCopy);
+  //   tableRowsCopy[rowIndex].rate = getPriceToUnitRate(
+  //     tableRowsCopy[rowIndex].price,
+  //     unit,
+  //   );
+  //   setTableRows(tableRowsCopy);
+  //   bestPriceRow
+  //     ? setBestRowIndex(bestPriceRow.index)
+  //     : setBestRowIndex(undefined);
+  // }
 
   function getPriceToUnitRate(price, unit) {
     if (!price || !unit) return;
@@ -86,13 +99,17 @@ function Table() {
         <span>
           <input
             type="number"
-            onChange={(e) => handlePriceChange(index, e.target.value)}
+            onChange={(e) =>
+              handleInputChange(index, tableRow.priceKey, e.target.value)
+            }
           />
         </span>
         <span>
           <input
             type="number"
-            onChange={(e) => handleUnitChange(index, e.target.value)}
+            onChange={(e) =>
+              handleInputChange(index, tableRow.unitKey, e.target.value)
+            }
           />
         </span>
         <span>
