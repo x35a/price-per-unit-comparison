@@ -57,9 +57,7 @@ function Table() {
     return rows[0].index;
   }
 
-  //console.log(tableRows);
-
-  const allrows = tableRows.map((row, index) => {
+  const tableRowsMarkup = tableRows.map((row, index) => {
     return (
       <div key={index} className={bestRowIndex == index ? "bestrow" : ""}>
         <span>
@@ -85,5 +83,5 @@ function Table() {
     );
   });
 
-  return <>{allrows}</>;
+  return <>{tableRowsMarkup}</>;
 }
