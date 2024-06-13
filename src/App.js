@@ -94,24 +94,24 @@ const Table = () => {
         />
       ))}
       <div className="my-7 text-center">
-        <button onClick={addNewRow} className={style.button}>
-          {icon.plus}
-        </button>
-      </div>
-      <div className="mb-7 text-center">
         <button
+          className={`mx-2 + ${style.button}`}
           onClick={goBack}
           disabled={historyPoint > 0 ? false : true}
-          className={`mx-1 + ${style.button}`}
         >
           {icon.arrowLeft}
         </button>
+
         <button
+          className={`mx-2 + ${style.button}`}
           onClick={goForward}
           disabled={historyPoint < history.length - 1 ? false : true}
-          className={`mx-1 + ${style.button}`}
         >
           {icon.arrowRight}
+        </button>
+
+        <button className={`mx-2 + ${style.button}`} onClick={addNewRow}>
+          {icon.plus}
         </button>
       </div>
     </>
