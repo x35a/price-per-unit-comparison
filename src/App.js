@@ -51,6 +51,8 @@ const Table = () => {
         <TableRow
           key={index}
           index={index}
+          price={row.price}
+          unit={row.unit}
           rate={row.rate}
           priceKey={inputKey.price}
           unitKey={inputKey.unit}
@@ -66,6 +68,8 @@ const Table = () => {
 
 const TableRow = ({
   index,
+  price,
+  unit,
   rate,
   priceKey,
   unitKey,
@@ -80,12 +84,14 @@ const TableRow = ({
       <span>
         <input
           type="number"
+          value={price ? price : ""}
           onChange={(e) => handleInputChange(index, priceKey, e.target.value)}
         />
       </span>
       <span>
         <input
           type="number"
+          value={unit ? unit : ""}
           onChange={(e) => handleInputChange(index, unitKey, e.target.value)}
         />
       </span>
