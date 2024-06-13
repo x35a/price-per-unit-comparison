@@ -2,6 +2,14 @@ import { useState } from "react";
 import "./styles.css";
 import "./input.css";
 
+const style = {
+  button: "bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded",
+  buttonRed: "bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded",
+  input:
+    "border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+  highlightTableRow: "bg-green-400",
+};
+
 export default function App() {
   return (
     <div className="App">
@@ -89,14 +97,21 @@ const Table = () => {
           removeRow={removeRow}
         />
       ))}
-      <button onClick={addNewRow}>Add new row</button>
+      <button onClick={addNewRow} className={style.button}>
+        Add new row
+      </button>
       <div>
-        <button onClick={goBack} disabled={historyPoint > 0 ? false : true}>
+        <button
+          onClick={goBack}
+          disabled={historyPoint > 0 ? false : true}
+          className={style.button}
+        >
           Back
         </button>
         <button
           onClick={goForward}
           disabled={historyPoint < history.length - 1 ? false : true}
+          className={style.button}
         >
           Forward
         </button>
@@ -119,12 +134,13 @@ const TableRow = ({
   const isBestRow = bestRowIndex === index;
 
   return (
-    <div className={isBestRow ? "bestrow" : ""}>
+    <div className={isBestRow ? style.highlightTableRow : ""}>
       <span>
         <input
           type="number"
           value={price ? price : ""}
           onChange={(e) => handleInputChange(index, priceKey, e.target.value)}
+          className={style.input}
         />
       </span>
       <span>
@@ -132,15 +148,22 @@ const TableRow = ({
           type="number"
           value={unit ? unit : ""}
           onChange={(e) => handleInputChange(index, unitKey, e.target.value)}
+          className={style.input}
         />
       </span>
       <span>
-        <input type="number" placeholder={rate} disabled />
+        <input
+          type="number"
+          placeholder={rate}
+          disabled
+          className={style.input}
+        />
       </span>
       <button
         onClick={() => {
           removeRow(index);
         }}
+        className={style.buttonRed}
       >
         Remove row
       </button>
