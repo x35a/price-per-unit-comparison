@@ -40,15 +40,10 @@ const Table = () => {
     setBestRowIndex(bestPriceRowIndex);
   };
 
-  const addNewRow = () => {
-    const tableRowsCopy = [...tableRows, addEmptyRow()];
-    setTableRows(tableRowsCopy);
-  };
+  const addNewRow = () => setTableRows([...tableRows, addEmptyRow()]);
 
-  const removeRow = (rowIndex) => {
-    const tableRowsCopy = tableRows.filter((row, index) => index != rowIndex);
-    setTableRows(tableRowsCopy);
-  };
+  const removeRow = (rowIndex) =>
+    setTableRows(tableRows.filter((row, index) => index != rowIndex));
 
   return (
     <>
