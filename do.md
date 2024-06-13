@@ -1,6 +1,6 @@
-- add new row
-- remove row
 - add back/forward buttons
 - add icons on buttons
 - add styles
 - add night theme
+- green highlight remains after pressng back button
+- setHistoryPoint & setHistory could be merged?

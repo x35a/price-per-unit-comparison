@@ -21,6 +21,8 @@ const Table = () => {
   const initialTableRows = [addEmptyRow(), addEmptyRow()];
   const inputKey = { price: "price", unit: "unit" };
 
+  const [history, setHistory] = useState([initialTableRows]);
+  const [historyPoint, setHistoryPoint] = useState(0);
   const [tableRows, setTableRows] = useState(initialTableRows);
   const [bestRowIndex, setBestRowIndex] = useState();
 
@@ -38,12 +40,37 @@ const Table = () => {
 
     setTableRows(tableRowsCopy);
     setBestRowIndex(bestPriceRowIndex);
+
+    if (value && historyPoint < history.length - 1) {
+      const newHistory = [...history.slice(0, historyPoint + 1), tableRowsCopy];
+      setHistoryPoint(historyPoint + 1);
+      setHistory(newHistory);
+    } else if (value) {
+      setHistoryPoint(historyPoint + 1);
+      setHistory([...history, tableRowsCopy]);
+    }
   };
 
   const addNewRow = () => setTableRows([...tableRows, addEmptyRow()]);
 
   const removeRow = (rowIndex) =>
     setTableRows(tableRows.filter((row, index) => index != rowIndex));
+
+  const goBack = () => {
+    //console.log("goBack", history);
+    const prevHistoryPoint = historyPoint - 1;
+    setHistoryPoint(prevHistoryPoint);
+    setTableRows(history[prevHistoryPoint]);
+  };
+
+  const goForward = () => {
+    //console.log("goForward", history);
+    const nextHistoryPoint = historyPoint + 1;
+    setHistoryPoint(nextHistoryPoint);
+    setTableRows(history[nextHistoryPoint]);
+  };
+
+  console.log(history);
 
   return (
     <>
@@ -62,6 +89,17 @@ const Table = () => {
         />
       ))}
       <button onClick={addNewRow}>Add new row</button>
+      <div>
+        <button onClick={goBack} disabled={historyPoint > 0 ? false : true}>
+          Back
+        </button>
+        <button
+          onClick={goForward}
+          disabled={historyPoint < history.length - 1 ? false : true}
+        >
+          Forward
+        </button>
+      </div>
     </>
   );
 };
