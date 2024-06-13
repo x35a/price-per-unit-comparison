@@ -11,7 +11,7 @@ export default function App() {
   );
 }
 
-function Table() {
+const Table = () => {
   const tableRow = {
     addRow() {
       return { price: undefined, unit: undefined, rate: undefined };
@@ -42,34 +42,53 @@ function Table() {
     setBestRowIndex(bestPriceRowIndex);
   }
 
-  const tableRowsMarkup = tableRows.map((row, index) => {
-    return (
-      <div key={index} className={bestRowIndex == index ? "bestrow" : ""}>
-        <span>
-          <input
-            type="number"
-            onChange={(e) =>
-              handleInputChange(index, tableRow.priceKey, e.target.value)
-            }
-          />
-        </span>
-        <span>
-          <input
-            type="number"
-            onChange={(e) =>
-              handleInputChange(index, tableRow.unitKey, e.target.value)
-            }
-          />
-        </span>
-        <span>
-          <input type="number" placeholder={row.rate} disabled />
-        </span>
-      </div>
-    );
-  });
+  return (
+    <>
+      {tableRows.map((row, index) => (
+        <TableRow
+          key={index}
+          index={index}
+          rate={row.rate}
+          priceKey={tableRow.priceKey}
+          unitKey={tableRow.unitKey}
+          bestRowIndex={bestRowIndex}
+          handleInputChange={handleInputChange}
+        />
+      ))}
+    </>
+  );
+};
 
-  return <>{tableRowsMarkup}</>;
-}
+const TableRow = ({
+  index,
+  rate,
+  priceKey,
+  unitKey,
+  bestRowIndex,
+  handleInputChange,
+}) => {
+  const isBestRow = bestRowIndex === index;
+
+  return (
+    <div className={isBestRow ? "bestrow" : ""}>
+      <span>
+        <input
+          type="number"
+          onChange={(e) => handleInputChange(index, priceKey, e.target.value)}
+        />
+      </span>
+      <span>
+        <input
+          type="number"
+          onChange={(e) => handleInputChange(index, unitKey, e.target.value)}
+        />
+      </span>
+      <span>
+        <input type="number" placeholder={rate} disabled />
+      </span>
+    </div>
+  );
+};
 
 function getPriceToUnitRate(price, unit) {
   if (!price || !unit) return;
