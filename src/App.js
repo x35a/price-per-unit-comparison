@@ -135,7 +135,7 @@ const TableRow = ({
     <div
       className={`flex m-4 rounded ${isBestRow ? style.highlightTableRow : ""}`}
     >
-      <div className="">
+      <div className="flex">
         <button
           onClick={() => {
             removeRow(index);
@@ -149,6 +149,14 @@ const TableRow = ({
       <div className="grow ml-2">
         <input
           type="number"
+          placeholder={rate}
+          disabled
+          className={`w-full ${style.input}`}
+        />
+      </div>
+      <div className="grow ml-2">
+        <input
+          type="number"
           value={price ? price : ""}
           onChange={(e) => handleInputChange(index, priceKey, e.target.value)}
           className={`w-full ${style.input}`}
@@ -159,14 +167,6 @@ const TableRow = ({
           type="number"
           value={unit ? unit : ""}
           onChange={(e) => handleInputChange(index, unitKey, e.target.value)}
-          className={`w-full ${style.input}`}
-        />
-      </div>
-      <div className="grow ml-2">
-        <input
-          type="number"
-          placeholder={rate}
-          disabled
           className={`w-full ${style.input}`}
         />
       </div>
