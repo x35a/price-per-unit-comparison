@@ -1,0 +1,5 @@
+- add new row
+- remove row
+- add icons on buttons
+- add styles
+- add night theme

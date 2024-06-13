@@ -40,6 +40,11 @@ const Table = () => {
     setBestRowIndex(bestPriceRowIndex);
   };
 
+  const addNewRow = () => {
+    const tableRowsCopy = [...tableRows, addEmptyRow()];
+    setTableRows(tableRowsCopy);
+  };
+
   return (
     <>
       {tableRows.map((row, index) => (
@@ -53,6 +58,7 @@ const Table = () => {
           handleInputChange={handleInputChange}
         />
       ))}
+      <button onClick={addNewRow}>Add new row</button>
     </>
   );
 };
