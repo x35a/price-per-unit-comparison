@@ -12,18 +12,16 @@ export default function App() {
 }
 
 const Table = () => {
-  const tableRow = {
-    addRow() {
-      return { price: undefined, unit: undefined, rate: undefined };
-    },
-    priceKey: "price",
-    unitKey: "unit",
+  const emptyRow = {
+    price: undefined,
+    unit: undefined,
+    rate: undefined,
   };
+  const addEmptyRow = () => ({ ...emptyRow });
+  const initialTableRows = [addEmptyRow(), addEmptyRow()];
+  const inputKey = { price: "price", unit: "unit" };
 
-  const [tableRows, setTableRows] = useState([
-    tableRow.addRow(),
-    tableRow.addRow(),
-  ]);
+  const [tableRows, setTableRows] = useState(initialTableRows);
   const [bestRowIndex, setBestRowIndex] = useState();
 
   const handleInputChange = (rowIndex, inputKey, value) => {
@@ -49,8 +47,8 @@ const Table = () => {
           key={index}
           index={index}
           rate={row.rate}
-          priceKey={tableRow.priceKey}
-          unitKey={tableRow.unitKey}
+          priceKey={inputKey.price}
+          unitKey={inputKey.unit}
           bestRowIndex={bestRowIndex}
           handleInputChange={handleInputChange}
         />
