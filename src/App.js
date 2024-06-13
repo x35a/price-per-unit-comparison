@@ -112,7 +112,6 @@ const Table = () => {
           {icon.arrowLeft}
         </button>
         <button
-          className="mx-1"
           onClick={goForward}
           disabled={historyPoint < history.length - 1 ? false : true}
           className={`mx-1 + ${style.button}`}
@@ -139,30 +138,24 @@ const TableRow = ({
 
   return (
     <div className={isBestRow ? style.highlightTableRow : ""}>
-      <span>
-        <input
-          type="number"
-          value={price ? price : ""}
-          onChange={(e) => handleInputChange(index, priceKey, e.target.value)}
-          className={style.input}
-        />
-      </span>
-      <span>
-        <input
-          type="number"
-          value={unit ? unit : ""}
-          onChange={(e) => handleInputChange(index, unitKey, e.target.value)}
-          className={style.input}
-        />
-      </span>
-      <span>
-        <input
-          type="number"
-          placeholder={rate}
-          disabled
-          className={style.input}
-        />
-      </span>
+      <input
+        type="number"
+        value={price ? price : ""}
+        onChange={(e) => handleInputChange(index, priceKey, e.target.value)}
+        className={style.input}
+      />
+      <input
+        type="number"
+        value={unit ? unit : ""}
+        onChange={(e) => handleInputChange(index, unitKey, e.target.value)}
+        className={style.input}
+      />
+      <input
+        type="number"
+        placeholder={rate}
+        disabled
+        className={style.input}
+      />
       <button
         onClick={() => {
           removeRow(index);
