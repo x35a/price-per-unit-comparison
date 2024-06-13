@@ -93,12 +93,12 @@ const Table = () => {
           removeRow={removeRow}
         />
       ))}
-      <div className="my-2">
+      <div className="my-7 text-center">
         <button onClick={addNewRow} className={style.button}>
           {icon.plus}
         </button>
       </div>
-      <div className="my-2">
+      <div className="mb-7 text-center">
         <button
           onClick={goBack}
           disabled={historyPoint > 0 ? false : true}
@@ -132,33 +132,41 @@ const TableRow = ({
   const isBestRow = bestRowIndex === index;
 
   return (
-    <div className={isBestRow ? style.highlightTableRow : ""}>
-      <input
-        type="number"
-        value={price ? price : ""}
-        onChange={(e) => handleInputChange(index, priceKey, e.target.value)}
-        className={style.input}
-      />
-      <input
-        type="number"
-        value={unit ? unit : ""}
-        onChange={(e) => handleInputChange(index, unitKey, e.target.value)}
-        className={style.input}
-      />
-      <input
-        type="number"
-        placeholder={rate}
-        disabled
-        className={style.input}
-      />
-      <button
-        onClick={() => {
-          removeRow(index);
-        }}
-        className={style.buttonRed}
-      >
-        {icon.trash}
-      </button>
+    <div className={`flex ${isBestRow ? style.highlightTableRow : ""}`}>
+      <div className="basis-1/4">
+        <input
+          type="number"
+          value={price ? price : ""}
+          onChange={(e) => handleInputChange(index, priceKey, e.target.value)}
+          className={`w-full ${style.input}`}
+        />
+      </div>
+      <div className="basis-1/4">
+        <input
+          type="number"
+          value={unit ? unit : ""}
+          onChange={(e) => handleInputChange(index, unitKey, e.target.value)}
+          className={`w-full ${style.input}`}
+        />
+      </div>
+      <div className="basis-1/4">
+        <input
+          type="number"
+          placeholder={rate}
+          disabled
+          className={`w-full ${style.input}`}
+        />
+      </div>
+      <div className="basis-1/4">
+        <button
+          onClick={() => {
+            removeRow(index);
+          }}
+          className={style.buttonRed}
+        >
+          {icon.trash}
+        </button>
+      </div>
     </div>
   );
 };
