@@ -132,32 +132,10 @@ const TableRow = ({
   const isBestRow = bestRowIndex === index;
 
   return (
-    <div className={`flex ${isBestRow ? style.highlightTableRow : ""}`}>
-      <div className="basis-1/4">
-        <input
-          type="number"
-          value={price ? price : ""}
-          onChange={(e) => handleInputChange(index, priceKey, e.target.value)}
-          className={`w-full ${style.input}`}
-        />
-      </div>
-      <div className="basis-1/4">
-        <input
-          type="number"
-          value={unit ? unit : ""}
-          onChange={(e) => handleInputChange(index, unitKey, e.target.value)}
-          className={`w-full ${style.input}`}
-        />
-      </div>
-      <div className="basis-1/4">
-        <input
-          type="number"
-          placeholder={rate}
-          disabled
-          className={`w-full ${style.input}`}
-        />
-      </div>
-      <div className="basis-1/4">
+    <div
+      className={`flex m-4 rounded ${isBestRow ? style.highlightTableRow : ""}`}
+    >
+      <div className="">
         <button
           onClick={() => {
             removeRow(index);
@@ -166,6 +144,31 @@ const TableRow = ({
         >
           {icon.trash}
         </button>
+      </div>
+
+      <div className="grow ml-2">
+        <input
+          type="number"
+          value={price ? price : ""}
+          onChange={(e) => handleInputChange(index, priceKey, e.target.value)}
+          className={`w-full ${style.input}`}
+        />
+      </div>
+      <div className="grow ml-2">
+        <input
+          type="number"
+          value={unit ? unit : ""}
+          onChange={(e) => handleInputChange(index, unitKey, e.target.value)}
+          className={`w-full ${style.input}`}
+        />
+      </div>
+      <div className="grow ml-2">
+        <input
+          type="number"
+          placeholder={rate}
+          disabled
+          className={`w-full ${style.input}`}
+        />
       </div>
     </div>
   );
