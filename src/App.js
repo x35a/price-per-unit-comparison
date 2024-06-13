@@ -26,7 +26,7 @@ const Table = () => {
   ]);
   const [bestRowIndex, setBestRowIndex] = useState();
 
-  function handleInputChange(rowIndex, inputKey, value) {
+  const handleInputChange = (rowIndex, inputKey, value) => {
     const tableRowsCopy = tableRows.map((row) => ({ ...row }));
 
     tableRowsCopy[rowIndex][inputKey] = value;
@@ -40,7 +40,7 @@ const Table = () => {
 
     setTableRows(tableRowsCopy);
     setBestRowIndex(bestPriceRowIndex);
-  }
+  };
 
   return (
     <>
