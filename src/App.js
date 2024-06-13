@@ -4,7 +4,8 @@ import "./input.css";
 import * as icon from "./icons";
 
 const style = {
-  button: "bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded",
+  button:
+    "bg-blue-500 hover:bg-blue-700 disabled:bg-gray-300 text-white py-2 px-4 rounded",
   buttonRed: "bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded",
   input:
     "border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
