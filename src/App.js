@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./styles.css";
+import "./input.css";
 
 export default function App() {
   return (
