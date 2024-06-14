@@ -79,6 +79,8 @@ const Table = () => {
 
   return (
     <>
+      <div className="mt-28"></div>
+
       {tableRows.map((row, index) => (
         <TableRow
           key={index}
@@ -160,6 +162,7 @@ const TableRow = ({
           value={price ? price : ""}
           onChange={(e) => handleInputChange(index, priceKey, e.target.value)}
           className={`w-full ${style.input}`}
+          placeholder={priceKey}
         />
       </div>
       <div className="grow ml-2">
@@ -168,6 +171,7 @@ const TableRow = ({
           value={unit ? unit : ""}
           onChange={(e) => handleInputChange(index, unitKey, e.target.value)}
           className={`w-full ${style.input}`}
+          placeholder={unitKey}
         />
       </div>
     </div>
