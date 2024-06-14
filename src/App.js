@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import "./styles.css";
 import "./input.css";
 import * as icon from "./icons";
 
@@ -36,8 +35,7 @@ const Table = () => {
   const [bestRowIndex, setBestRowIndex] = useState();
 
   useEffect(() => {
-    const bestPriceRowIndex = findBestPriceRowIndex(tableRows);
-    setBestRowIndex(bestPriceRowIndex);
+    setBestRowIndex(findBestPriceRowIndex(tableRows));
   }, [tableRows]);
 
   const handleInputChange = (rowIndex, inputKey, value) => {
@@ -50,10 +48,8 @@ const Table = () => {
       tableRowsCopy[rowIndex].unit,
     );
 
-    const bestPriceRowIndex = findBestPriceRowIndex(tableRowsCopy);
-
     setTableRows(tableRowsCopy);
-    setBestRowIndex(bestPriceRowIndex);
+    setBestRowIndex(findBestPriceRowIndex(tableRowsCopy));
 
     if (value && historyPoint < history.length - 1) {
       const newHistory = [...history.slice(0, historyPoint + 1), tableRowsCopy];

@@ -1,3 +1,1 @@
-- green highlight remains after pressng back button
 - setHistoryPoint & setHistory could be merged?
-- align table vertical
