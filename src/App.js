@@ -8,7 +8,7 @@ const style = {
     "bg-blue-500 hover:bg-blue-700 disabled:bg-gray-300 text-white py-2 px-4 rounded",
   buttonRed: "bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded",
   input:
-    "border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+    "dark:bg-gray-700 dark:opacity-80 dark:text-white border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
   highlightTableRow: "bg-green-400",
 };
 
@@ -97,7 +97,7 @@ const Table = () => {
       ))}
       <div className="my-7 text-center">
         <button
-          className={`mx-2 + ${style.button}`}
+          className={`mx-2 ${style.button}`}
           onClick={goBack}
           disabled={historyPoint > 0 ? false : true}
         >
@@ -105,14 +105,14 @@ const Table = () => {
         </button>
 
         <button
-          className={`mx-2 + ${style.button}`}
+          className={`mx-2 ${style.button}`}
           onClick={goForward}
           disabled={historyPoint < history.length - 1 ? false : true}
         >
           {icon.arrowRight}
         </button>
 
-        <button className={`mx-2 + ${style.button}`} onClick={addNewRow}>
+        <button className={`mx-2 ${style.button}`} onClick={addNewRow}>
           {icon.plus}
         </button>
       </div>
