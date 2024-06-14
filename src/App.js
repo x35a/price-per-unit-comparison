@@ -13,7 +13,11 @@ const style = {
 };
 
 export default function App() {
-  return <Table />;
+  return (
+    <div className="flex flex-col justify-center min-h-svh container mx-auto px-4">
+      <Table />
+    </div>
+  );
 }
 
 const Table = () => {
@@ -62,25 +66,19 @@ const Table = () => {
     setTableRows(tableRows.filter((row, index) => index != rowIndex));
 
   const goBack = () => {
-    //console.log("goBack", history);
     const prevHistoryPoint = historyPoint - 1;
     setHistoryPoint(prevHistoryPoint);
     setTableRows(history[prevHistoryPoint]);
   };
 
   const goForward = () => {
-    //console.log("goForward", history);
     const nextHistoryPoint = historyPoint + 1;
     setHistoryPoint(nextHistoryPoint);
     setTableRows(history[nextHistoryPoint]);
   };
 
-  console.log(history);
-
   return (
     <>
-      <div className="mt-28"></div>
-
       {tableRows.map((row, index) => (
         <TableRow
           key={index}
@@ -135,7 +133,7 @@ const TableRow = ({
 
   return (
     <div
-      className={`flex m-4 rounded ${isBestRow ? style.highlightTableRow : ""}`}
+      className={`flex mt-4 first:mt-0 rounded ${isBestRow ? style.highlightTableRow : ""}`}
     >
       <div className="flex">
         <button
