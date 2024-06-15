@@ -1,1 +1,2 @@
 - setHistoryPoint & setHistory could be merged?
+- record history on rows length change only (do not record any changes)

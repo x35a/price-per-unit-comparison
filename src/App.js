@@ -94,6 +94,7 @@ const Table = () => {
           removeRow={removeRow}
         />
       ))}
+
       <div className="my-7 text-center">
         <button
           className={`mx-2 ${style.button}`}
@@ -102,7 +103,6 @@ const Table = () => {
         >
           {icon.arrowLeft}
         </button>
-
         <button
           className={`mx-2 ${style.button}`}
           onClick={goForward}
@@ -110,7 +110,6 @@ const Table = () => {
         >
           {icon.arrowRight}
         </button>
-
         <button className={`mx-2 ${style.button}`} onClick={addNewRow}>
           {icon.plus}
         </button>
