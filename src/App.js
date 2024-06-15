@@ -49,7 +49,6 @@ const Table = () => {
     );
 
     setTableRows(tableRowsCopy);
-    setBestRowIndex(findBestPriceRowIndex(tableRowsCopy));
 
     if (value && historyPoint < history.length - 1) {
       const newHistory = [...history.slice(0, historyPoint + 1), tableRowsCopy];
