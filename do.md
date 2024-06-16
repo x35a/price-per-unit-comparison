@@ -1,2 +1,3 @@
 - setHistoryPoint & setHistory could be merged?
 - record history on rows length change only (do not record any changes)
+- reload page, then put any input val - next button is active 
