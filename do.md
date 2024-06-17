@@ -1,1 +1,0 @@
-- setTableRows & setHistory could be merged?

@@ -31,15 +31,14 @@ const Table = () => {
 
   const [history, setHistory] = useState([initialTableRows]);
   const [historyPoint, setHistoryPoint] = useState(history.length - 1);
-  const [tableRows, setTableRows] = useState(initialTableRows);
   const [bestRowIndex, setBestRowIndex] = useState();
 
   useEffect(() => {
-    setBestRowIndex(findBestPriceRowIndex(tableRows));
-  }, [tableRows]);
+    setBestRowIndex(findBestPriceRowIndex(history[historyPoint]));
+  }, [history]);
 
   const handleInputChange = (rowIndex, inputKey, value) => {
-    const tableRowsCopy = tableRows.map((row) => ({ ...row }));
+    const tableRowsCopy = history[historyPoint].map((row) => ({ ...row }));
 
     tableRowsCopy[rowIndex][inputKey] = value;
 
@@ -48,51 +47,39 @@ const Table = () => {
       tableRowsCopy[rowIndex].unit,
     );
 
-    setTableRows(tableRowsCopy);
-
-    // check input value to prevent pushing empty inputs in history
-    if (value && historyPoint < history.length - 1) {
+    if (historyPoint < history.length - 1) {
       const newHistory = [...history.slice(0, historyPoint + 1), tableRowsCopy];
       setHistoryPoint(historyPoint + 1);
       setHistory(newHistory);
-    } else if (value) {
+    } else {
       const newHistory = [...history.slice(0, -1), tableRowsCopy];
       setHistory(newHistory);
     }
   };
 
   const addNewRow = () => {
-    const newTableRows = [...tableRows, addEmptyRow()];
-    setTableRows(newTableRows);
+    const newTableRows = [...history[historyPoint], addEmptyRow()];
     setHistoryPoint(historyPoint + 1);
     setHistory([...history, newTableRows]);
   };
 
   const removeRow = (rowIndex) => {
-    const newTableRows = tableRows.filter((row, index) => index != rowIndex);
-    setTableRows(newTableRows);
+    const newTableRows = history[historyPoint].filter(
+      (row, index) => index != rowIndex,
+    );
     setHistoryPoint(historyPoint + 1);
     setHistory([...history, newTableRows]);
   };
 
-  const goBack = () => {
-    const prevHistoryPoint = historyPoint - 1;
-    setHistoryPoint(prevHistoryPoint);
-    setTableRows(history[prevHistoryPoint]);
-  };
-
-  const goForward = () => {
-    const nextHistoryPoint = historyPoint + 1;
-    setHistoryPoint(nextHistoryPoint);
-    setTableRows(history[nextHistoryPoint]);
-  };
+  const goBack = () => setHistoryPoint(historyPoint - 1);
+  const goForward = () => setHistoryPoint(historyPoint + 1);
 
   console.log("historyPoint", historyPoint);
   console.log(history);
 
   return (
     <>
-      {tableRows.map((row, index) => (
+      {history[historyPoint].map((row, index) => (
         <TableRow
           key={index}
           index={index}
