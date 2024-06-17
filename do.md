@@ -1,1 +1,2 @@
 - setTableRows & setHistory could be merged?
+- can't remove input val
