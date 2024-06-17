@@ -50,6 +50,7 @@ const Table = () => {
 
     setTableRows(tableRowsCopy);
 
+    // check input value to prevent pushing empty inputs in history
     if (value && historyPoint < history.length - 1) {
       const newHistory = [...history.slice(0, historyPoint + 1), tableRowsCopy];
       setHistoryPoint(historyPoint + 1);
@@ -58,35 +59,20 @@ const Table = () => {
       const newHistory = [...history.slice(0, -1), tableRowsCopy];
       setHistory(newHistory);
     }
-
-    // if (value && historyPoint < history.length - 1) {
-    //   const newHistory = [...history.slice(0, historyPoint + 1), tableRowsCopy];
-    //   setHistoryPoint(historyPoint + 1);
-    //   setHistory(newHistory);
-    // } else if (value) {
-    //   setHistoryPoint(historyPoint + 1);
-    //   setHistory([...history, tableRowsCopy]);
-    // }
   };
 
   const addNewRow = () => {
-    // need historyPoint check, see handleInputChange
     const newTableRows = [...tableRows, addEmptyRow()];
     setTableRows(newTableRows);
     setHistoryPoint(historyPoint + 1);
     setHistory([...history, newTableRows]);
-    // before
-    //setTableRows([...tableRows, addEmptyRow()]);
   };
 
   const removeRow = (rowIndex) => {
-    // need historyPoint check, see handleInputChange
     const newTableRows = tableRows.filter((row, index) => index != rowIndex);
     setTableRows(newTableRows);
     setHistoryPoint(historyPoint + 1);
     setHistory([...history, newTableRows]);
-    // before
-    //setTableRows(tableRows.filter((row, index) => index != rowIndex));
   };
 
   const goBack = () => {
