@@ -1,1 +1,1 @@
-- setHistoryPoint & setHistory could be merged?
+- setTableRows & setHistory could be merged?
