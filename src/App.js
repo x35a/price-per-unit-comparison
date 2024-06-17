@@ -50,12 +50,12 @@ const Table = () => {
 
     setTableRows(tableRowsCopy);
 
-    if (historyPoint < history.length - 1) {
+    if (value && historyPoint < history.length - 1) {
       const newHistory = [...history.slice(0, historyPoint + 1), tableRowsCopy];
       setHistoryPoint(historyPoint + 1);
       setHistory(newHistory);
-    } else {
-      const newHistory = [...history, tableRowsCopy];
+    } else if (value) {
+      const newHistory = [...history.slice(0, -1), tableRowsCopy];
       setHistory(newHistory);
     }
 
@@ -75,6 +75,7 @@ const Table = () => {
     setTableRows(newTableRows);
     setHistoryPoint(historyPoint + 1);
     setHistory([...history, newTableRows]);
+    // before
     //setTableRows([...tableRows, addEmptyRow()]);
   };
 
@@ -84,6 +85,7 @@ const Table = () => {
     setTableRows(newTableRows);
     setHistoryPoint(historyPoint + 1);
     setHistory([...history, newTableRows]);
+    // before
     //setTableRows(tableRows.filter((row, index) => index != rowIndex));
   };
 
@@ -99,7 +101,7 @@ const Table = () => {
     setTableRows(history[nextHistoryPoint]);
   };
 
-  console.log(historyPoint);
+  console.log("historyPoint", historyPoint);
   console.log(history);
 
   return (
