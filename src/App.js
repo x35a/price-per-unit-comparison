@@ -47,12 +47,11 @@ const Table = () => {
       tableRowsCopy[rowIndex].unit,
     );
 
-    // check input value to prevent pushing empty inputs in history
-    if (value && historyPoint < history.length - 1) {
+    if (historyPoint < history.length - 1) {
       const newHistory = [...history.slice(0, historyPoint + 1), tableRowsCopy];
       setHistoryPoint(historyPoint + 1);
       setHistory(newHistory);
-    } else if (value) {
+    } else {
       const newHistory = [...history.slice(0, -1), tableRowsCopy];
       setHistory(newHistory);
     }
