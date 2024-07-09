@@ -20,6 +20,8 @@ export default function App() {
 }
 
 const Table = () => {
+  // do: change emptyRow to {price: key, value}, it allows to get rid of inputKey
+  // do: join emptyRow obj and addEmptyRow
   const emptyRow = {
     price: undefined,
     unit: undefined,
