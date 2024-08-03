@@ -30,9 +30,9 @@ const Table = () => {
     rate: undefined,
   };
   const emptyRow2 = {
-    price: undefined,
-    unit: undefined,
-    rate: undefined,
+    price: { key: "price", value: undefined },
+    unit: { key: "unit", value: undefined },
+    rate: { key: "rate", value: undefined },
   };
 
   const addEmptyRow = () => ({ ...emptyRow });
