@@ -20,7 +20,6 @@ export default function App() {
 }
 
 const Table = () => {
-  // do: join emptyRow obj and addEmptyRow
   // do: add description input
   // do: click back button then add new row. add new row button works as forward.
   // do: disable input negative numbers
