@@ -25,16 +25,18 @@ const Table = () => {
   // do: add description input
   // do: round rate input
   // do: click back button then add new row. add new row button works as forward.
+
+  // const emptyRow = {
+  //   price: undefined,
+  //   unit: undefined,
+  //   rate: undefined,
+  // };
   const emptyRow = {
-    price: undefined,
-    unit: undefined,
-    rate: undefined,
-  };
-  const emptyRow2 = {
+    // cols:
     price: { key: "price", value: undefined },
     unit: { key: "unit", value: undefined },
     rate: { key: "rate", value: undefined },
-    addRow() {
+    addEmptyRow() {
       return {
         [this.price.key]: this.price.value,
         [this.unit.key]: this.unit.value,
@@ -43,11 +45,9 @@ const Table = () => {
     },
   };
 
-  //console.log("test", emptyRow2.addRow());
-
-  const addEmptyRow = () => ({ ...emptyRow });
-  const initialTableRows = [emptyRow2.addRow(), emptyRow2.addRow()];
-  const inputKey = { price: "price", unit: "unit" };
+  //const addEmptyRow = () => ({ ...emptyRow });
+  const initialTableRows = [emptyRow.addEmptyRow(), emptyRow.addEmptyRow()];
+  //const inputKey = { price: "price", unit: "unit" };
 
   const [history, setHistory] = useState([initialTableRows]);
   const [historyPoint, setHistoryPoint] = useState(history.length - 1);
@@ -78,7 +78,7 @@ const Table = () => {
   };
 
   const addNewRow = () => {
-    const newTableRows = [...history[historyPoint], emptyRow2.addRow()];
+    const newTableRows = [...history[historyPoint], emptyRow.addEmptyRow()];
     setHistoryPoint(historyPoint + 1);
     setHistory([...history, newTableRows]);
   };
@@ -108,8 +108,8 @@ const Table = () => {
           rate={row.rate}
           // priceKey={inputKey.price}
           // unitKey={inputKey.unit}
-          priceKey={emptyRow2.price.key}
-          unitKey={emptyRow2.unit.key}
+          priceKey={emptyRow.price.key}
+          unitKey={emptyRow.unit.key}
           bestRowIndex={bestRowIndex}
           handleInputChange={handleInputChange}
           removeRow={removeRow}
