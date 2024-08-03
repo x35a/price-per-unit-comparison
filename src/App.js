@@ -29,6 +29,12 @@ const Table = () => {
     unit: undefined,
     rate: undefined,
   };
+  const emptyRow2 = {
+    price: undefined,
+    unit: undefined,
+    rate: undefined,
+  };
+
   const addEmptyRow = () => ({ ...emptyRow });
   const initialTableRows = [addEmptyRow(), addEmptyRow()];
   const inputKey = { price: "price", unit: "unit" };
