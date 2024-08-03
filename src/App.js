@@ -178,7 +178,7 @@ const TableRow = ({
       <div className="pl-2 shrink-0	basis-1/5 snap-start">
         <input
           type="number"
-          value={price ? price : ""}
+          value={price}
           onChange={(e) => handleInputChange(index, priceIndex, e.target.value)}
           className={`w-full ${style.input}`}
           placeholder={priceIndex}
@@ -187,7 +187,7 @@ const TableRow = ({
       <div className="pl-2 shrink-0	basis-1/5 snap-start">
         <input
           type="number"
-          value={unit ? unit : ""}
+          value={unit}
           onChange={(e) => handleInputChange(index, unitIndex, e.target.value)}
           className={`w-full ${style.input}`}
           placeholder={unitIndex}
