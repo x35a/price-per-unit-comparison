@@ -53,11 +53,14 @@ const Table = () => {
       tableRowsCopy[rowIndex].unit,
     );
 
+    // if historyPoint is somewhere in the middle of the history array
+    // then discard everything after historyPoint
     if (historyPoint < history.length - 1) {
       const newHistory = [...history.slice(0, historyPoint + 1), tableRowsCopy];
       setHistoryPoint(historyPoint + 1);
       setHistory(newHistory);
     } else {
+      // raplace the last item in the history array
       const newHistory = [...history.slice(0, -1), tableRowsCopy];
       setHistory(newHistory);
     }
@@ -65,16 +68,18 @@ const Table = () => {
 
   const addNewRow = () => {
     const newTableRows = [...history[historyPoint], emptyRow.addEmptyRow()];
+    const newHistory = [...history.slice(0, historyPoint + 1), newTableRows];
     setHistoryPoint(historyPoint + 1);
-    setHistory([...history, newTableRows]);
+    setHistory(newHistory);
   };
 
   const removeRow = (rowIndex) => {
     const newTableRows = history[historyPoint].filter(
       (row, index) => index != rowIndex,
     );
+    const newHistory = [...history.slice(0, historyPoint + 1), newTableRows];
     setHistoryPoint(historyPoint + 1);
-    setHistory([...history, newTableRows]);
+    setHistory(newHistory);
   };
 
   const goBack = () => setHistoryPoint(historyPoint - 1);
