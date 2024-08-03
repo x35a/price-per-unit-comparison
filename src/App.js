@@ -20,10 +20,8 @@ export default function App() {
 }
 
 const Table = () => {
-  // do: change emptyRow to {price: key, value}, it allows to get rid of inputKey
   // do: join emptyRow obj and addEmptyRow
   // do: add description input
-  // do: round rate input
   // do: click back button then add new row. add new row button works as forward.
   // do: disable input negative numbers
 
@@ -191,7 +189,7 @@ const TableRow = ({
 
 function getPriceToUnitRate(price, unit) {
   if (!price || !unit) return;
-  return price / unit;
+  return (price / unit).toFixed(2);
 }
 
 function findBestPriceRowIndex(tableRows) {
