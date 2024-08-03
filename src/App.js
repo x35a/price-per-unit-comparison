@@ -22,7 +22,6 @@ export default function App() {
 const Table = () => {
   // do: add description input
   // do: click back button then add new row. add new row button works as forward.
-  // do: disable input negative numbers
 
   const emptyRow = {
     // cols:
@@ -160,7 +159,7 @@ const TableRow = ({
         <input
           type="number"
           placeholder={rate}
-          disabled
+          readOnly
           className={`w-full ${style.input}`}
         />
       </div>
