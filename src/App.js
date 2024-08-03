@@ -24,14 +24,24 @@ const Table = () => {
   // do: join emptyRow obj and addEmptyRow
   // do: add description input
   // do: round rate input
+  // do: click back button then add new row. add new row button works as forward.
+  // do: disable input negative numbers
+
   const emptyRow = {
-    price: undefined,
-    unit: undefined,
-    rate: undefined,
+    // cols:
+    price: { index: "price", value: undefined },
+    unit: { index: "unit", value: undefined },
+    rate: { index: "rate", value: undefined },
+    addEmptyRow() {
+      return {
+        [this.price.index]: this.price.value,
+        [this.unit.index]: this.unit.value,
+        [this.rate.index]: this.rate.value,
+      };
+    },
   };
-  const addEmptyRow = () => ({ ...emptyRow });
-  const initialTableRows = [addEmptyRow(), addEmptyRow()];
-  const inputKey = { price: "price", unit: "unit" };
+
+  const initialTableRows = [emptyRow.addEmptyRow(), emptyRow.addEmptyRow()];
 
   const [history, setHistory] = useState([initialTableRows]);
   const [historyPoint, setHistoryPoint] = useState(history.length - 1);
@@ -41,10 +51,10 @@ const Table = () => {
     setBestRowIndex(findBestPriceRowIndex(history[historyPoint]));
   }, [history]);
 
-  const handleInputChange = (rowIndex, inputKey, value) => {
+  const handleInputChange = (rowIndex, colIndex, inputValue) => {
     const tableRowsCopy = history[historyPoint].map((row) => ({ ...row }));
 
-    tableRowsCopy[rowIndex][inputKey] = value;
+    tableRowsCopy[rowIndex][colIndex] = inputValue;
 
     tableRowsCopy[rowIndex].rate = getPriceToUnitRate(
       tableRowsCopy[rowIndex].price,
@@ -62,7 +72,7 @@ const Table = () => {
   };
 
   const addNewRow = () => {
-    const newTableRows = [...history[historyPoint], addEmptyRow()];
+    const newTableRows = [...history[historyPoint], emptyRow.addEmptyRow()];
     setHistoryPoint(historyPoint + 1);
     setHistory([...history, newTableRows]);
   };
@@ -90,8 +100,8 @@ const Table = () => {
           price={row.price}
           unit={row.unit}
           rate={row.rate}
-          priceKey={inputKey.price}
-          unitKey={inputKey.unit}
+          priceIndex={emptyRow.price.index}
+          unitIndex={emptyRow.unit.index}
           bestRowIndex={bestRowIndex}
           handleInputChange={handleInputChange}
           removeRow={removeRow}
@@ -126,8 +136,8 @@ const TableRow = ({
   price,
   unit,
   rate,
-  priceKey,
-  unitKey,
+  priceIndex,
+  unitIndex,
   bestRowIndex,
   handleInputChange,
   removeRow,
@@ -161,18 +171,18 @@ const TableRow = ({
         <input
           type="number"
           value={price ? price : ""}
-          onChange={(e) => handleInputChange(index, priceKey, e.target.value)}
+          onChange={(e) => handleInputChange(index, priceIndex, e.target.value)}
           className={`w-full ${style.input}`}
-          placeholder={priceKey}
+          placeholder={priceIndex}
         />
       </div>
       <div className="grow ml-2">
         <input
           type="number"
           value={unit ? unit : ""}
-          onChange={(e) => handleInputChange(index, unitKey, e.target.value)}
+          onChange={(e) => handleInputChange(index, unitIndex, e.target.value)}
           className={`w-full ${style.input}`}
-          placeholder={unitKey}
+          placeholder={unitIndex}
         />
       </div>
     </div>
