@@ -12,15 +12,10 @@ const style = {
 };
 
 export default function App() {
-  return (
-    <div className="flex flex-col justify-center min-h-svh container mx-auto px-4">
-      <Table />
-    </div>
-  );
+  return <Table />;
 }
 
 const Table = () => {
-  // do: try to get rid of priceIndex, unitIndex, descriptionIndex
   // do: click back button then add new row. add new row button works as forward.
 
   const emptyRow = {
@@ -89,7 +84,7 @@ const Table = () => {
   console.log(history);
 
   return (
-    <>
+    <div className="flex flex-col justify-center min-h-svh container mx-auto px-4">
       {history[historyPoint].map((row, index) => (
         <TableRow
           key={index}
@@ -126,7 +121,7 @@ const Table = () => {
           {icon.plus}
         </button>
       </div>
-    </>
+    </div>
   );
 };
 
