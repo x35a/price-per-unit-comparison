@@ -26,11 +26,6 @@ const Table = () => {
   // do: round rate input
   // do: click back button then add new row. add new row button works as forward.
 
-  // const emptyRow = {
-  //   price: undefined,
-  //   unit: undefined,
-  //   rate: undefined,
-  // };
   const emptyRow = {
     // cols:
     price: { key: "price", value: undefined },
@@ -45,9 +40,7 @@ const Table = () => {
     },
   };
 
-  //const addEmptyRow = () => ({ ...emptyRow });
   const initialTableRows = [emptyRow.addEmptyRow(), emptyRow.addEmptyRow()];
-  //const inputKey = { price: "price", unit: "unit" };
 
   const [history, setHistory] = useState([initialTableRows]);
   const [historyPoint, setHistoryPoint] = useState(history.length - 1);
@@ -106,8 +99,6 @@ const Table = () => {
           price={row.price}
           unit={row.unit}
           rate={row.rate}
-          // priceKey={inputKey.price}
-          // unitKey={inputKey.unit}
           priceKey={emptyRow.price.key}
           unitKey={emptyRow.unit.key}
           bestRowIndex={bestRowIndex}
