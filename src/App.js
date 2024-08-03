@@ -99,6 +99,7 @@ const Table = () => {
           rate={row.rate}
           priceIndex={emptyRow.price.index}
           unitIndex={emptyRow.unit.index}
+          rateIndex={emptyRow.rate.index}
           descriptionIndex={emptyRow.description.index}
           bestRowIndex={bestRowIndex}
           handleInputChange={handleInputChange}
@@ -136,6 +137,7 @@ const TableRow = ({
   rate,
   priceIndex,
   unitIndex,
+  rateIndex,
   descriptionIndex,
   bestRowIndex,
   handleInputChange,
@@ -168,7 +170,7 @@ const TableRow = ({
       <div className="pl-2 shrink-0	basis-1/5 snap-start">
         <input
           type="number"
-          placeholder={rate}
+          placeholder={rate ?? rateIndex}
           readOnly
           className={`w-full ${style.input}`}
         />
