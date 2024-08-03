@@ -5,9 +5,9 @@ import * as icon from "./icons";
 const style = {
   button:
     "bg-blue-500 hover:bg-blue-700 disabled:bg-gray-300 text-white py-2 px-4 rounded",
-  buttonRed: "bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded",
+  buttonRed: "bg-red-500 hover:bg-red-700 text-white px-1 rounded",
   input:
-    "dark:bg-gray-700 dark:opacity-80 dark:text-white border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+    "dark:bg-gray-700 dark:opacity-80 dark:text-white border border-gray-300 rounded-md py-2 px-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
   highlightTableRow: "bg-green-400",
 };
 
@@ -20,7 +20,7 @@ export default function App() {
 }
 
 const Table = () => {
-  // do: add description input
+  // do: try to get rid of priceIndex, unitIndex, descriptionIndex
   // do: click back button then add new row. add new row button works as forward.
 
   const emptyRow = {
@@ -28,6 +28,7 @@ const Table = () => {
     price: { index: "price", value: undefined },
     unit: { index: "unit", value: undefined },
     rate: { index: "rate", value: undefined },
+    description: { index: "description", value: undefined },
     addEmptyRow() {
       return {
         [this.price.index]: this.price.value,
@@ -98,6 +99,7 @@ const Table = () => {
           rate={row.rate}
           priceIndex={emptyRow.price.index}
           unitIndex={emptyRow.unit.index}
+          descriptionIndex={emptyRow.description.index}
           bestRowIndex={bestRowIndex}
           handleInputChange={handleInputChange}
           removeRow={removeRow}
@@ -134,6 +136,7 @@ const TableRow = ({
   rate,
   priceIndex,
   unitIndex,
+  descriptionIndex,
   bestRowIndex,
   handleInputChange,
   removeRow,
@@ -142,9 +145,16 @@ const TableRow = ({
 
   return (
     <div
-      className={`flex mt-4 first:mt-0 rounded ${isBestRow ? style.highlightTableRow : ""}`}
+      className={`
+      flex 
+      overflow-x-auto	
+      snap-x 
+      snap-mandatory
+      mt-4 
+      first:mt-0 
+      ${isBestRow ? style.highlightTableRow : ""}`}
     >
-      <div className="flex">
+      <div className="flex snap-start">
         <button
           onClick={() => {
             removeRow(index);
@@ -155,7 +165,7 @@ const TableRow = ({
         </button>
       </div>
 
-      <div className="grow ml-2">
+      <div className="pl-2 shrink-0	basis-1/5 snap-start">
         <input
           type="number"
           placeholder={rate}
@@ -163,7 +173,7 @@ const TableRow = ({
           className={`w-full ${style.input}`}
         />
       </div>
-      <div className="grow ml-2">
+      <div className="pl-2 shrink-0	basis-1/5 snap-start">
         <input
           type="number"
           value={price ? price : ""}
@@ -172,13 +182,20 @@ const TableRow = ({
           placeholder={priceIndex}
         />
       </div>
-      <div className="grow ml-2">
+      <div className="pl-2 shrink-0	basis-1/5 snap-start">
         <input
           type="number"
           value={unit ? unit : ""}
           onChange={(e) => handleInputChange(index, unitIndex, e.target.value)}
           className={`w-full ${style.input}`}
           placeholder={unitIndex}
+        />
+      </div>
+      <div className="pl-2 shrink-0	basis-1/2 snap-start">
+        <input
+          type="text"
+          className={`w-full ${style.input}`}
+          placeholder={descriptionIndex}
         />
       </div>
     </div>
