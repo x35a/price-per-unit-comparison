@@ -41,7 +41,7 @@ const Table = () => {
 
   useEffect(() => {
     setBestRowIndex(findBestPriceRowIndex(history[historyPoint]));
-  }, [history]);
+  }, [history, historyPoint]);
 
   const handleInputChange = (rowIndex, colIndex, inputValue) => {
     const tableRowsCopy = history[historyPoint].map((row) => ({ ...row }));
