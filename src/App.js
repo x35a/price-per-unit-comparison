@@ -25,17 +25,18 @@ const Table = () => {
   // do: add description input
   // do: round rate input
   // do: click back button then add new row. add new row button works as forward.
+  // do: disable input negative numbers
 
   const emptyRow = {
     // cols:
-    price: { key: "price", value: undefined },
-    unit: { key: "unit", value: undefined },
-    rate: { key: "rate", value: undefined },
+    price: { index: "price", value: undefined },
+    unit: { index: "unit", value: undefined },
+    rate: { index: "rate", value: undefined },
     addEmptyRow() {
       return {
-        [this.price.key]: this.price.value,
-        [this.unit.key]: this.unit.value,
-        [this.rate.key]: this.rate.value,
+        [this.price.index]: this.price.value,
+        [this.unit.index]: this.unit.value,
+        [this.rate.index]: this.rate.value,
       };
     },
   };
@@ -50,10 +51,10 @@ const Table = () => {
     setBestRowIndex(findBestPriceRowIndex(history[historyPoint]));
   }, [history]);
 
-  const handleInputChange = (rowIndex, inputKey, value) => {
+  const handleInputChange = (rowIndex, colIndex, inputValue) => {
     const tableRowsCopy = history[historyPoint].map((row) => ({ ...row }));
 
-    tableRowsCopy[rowIndex][inputKey] = value;
+    tableRowsCopy[rowIndex][colIndex] = inputValue;
 
     tableRowsCopy[rowIndex].rate = getPriceToUnitRate(
       tableRowsCopy[rowIndex].price,
@@ -99,8 +100,8 @@ const Table = () => {
           price={row.price}
           unit={row.unit}
           rate={row.rate}
-          priceKey={emptyRow.price.key}
-          unitKey={emptyRow.unit.key}
+          priceIndex={emptyRow.price.index}
+          unitIndex={emptyRow.unit.index}
           bestRowIndex={bestRowIndex}
           handleInputChange={handleInputChange}
           removeRow={removeRow}
@@ -135,8 +136,8 @@ const TableRow = ({
   price,
   unit,
   rate,
-  priceKey,
-  unitKey,
+  priceIndex,
+  unitIndex,
   bestRowIndex,
   handleInputChange,
   removeRow,
@@ -170,18 +171,18 @@ const TableRow = ({
         <input
           type="number"
           value={price ? price : ""}
-          onChange={(e) => handleInputChange(index, priceKey, e.target.value)}
+          onChange={(e) => handleInputChange(index, priceIndex, e.target.value)}
           className={`w-full ${style.input}`}
-          placeholder={priceKey}
+          placeholder={priceIndex}
         />
       </div>
       <div className="grow ml-2">
         <input
           type="number"
           value={unit ? unit : ""}
-          onChange={(e) => handleInputChange(index, unitKey, e.target.value)}
+          onChange={(e) => handleInputChange(index, unitIndex, e.target.value)}
           className={`w-full ${style.input}`}
-          placeholder={unitKey}
+          placeholder={unitIndex}
         />
       </div>
     </div>
