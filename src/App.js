@@ -134,17 +134,6 @@ const Table = () => {
   const goBack = () => setHistoryPoint(historyPoint - 1);
   const goForward = () => setHistoryPoint(historyPoint + 1);
 
-  const activateDescription = (rowIndex) => {
-    if (history[historyPoint][rowIndex].descriptionIsActive) return;
-    const newTableRows = history[historyPoint].map((row) => ({ ...row }));
-    newTableRows[rowIndex].descriptionIsActive = true;
-    replaceAllHistorySnapsAfterHistoryPoint(
-      history,
-      historyPoint,
-      newTableRows,
-    );
-  };
-
   console.log("historyPoint", historyPoint);
   console.log(history);
 
@@ -161,8 +150,6 @@ const Table = () => {
           bestRowIndex={bestRowIndex}
           handleInputChange={handleInputChange}
           removeRow={removeRow}
-          descriptionIsActive={row.descriptionIsActive}
-          activateDescription={activateDescription}
         />
       ))}
 
@@ -201,7 +188,6 @@ const TableRow = ({
   bestRowIndex,
   handleInputChange,
   removeRow,
-  activateDescription,
 }) => {
   const isBestRow = bestRowIndex === rowIndex;
 
@@ -239,8 +225,8 @@ const TableRow = ({
         <input
           type="number"
           value={price.value ?? price.index}
-          onChange={(e) =>
-            handleInputChange(rowIndex, price.index, e.target.value)
+          onChange={(event) =>
+            handleInputChange(rowIndex, price.index, event.target.value)
           }
           className={`w-full ${style.input}`}
           placeholder={price.index}
@@ -250,8 +236,8 @@ const TableRow = ({
         <input
           type="number"
           value={unit.value ?? unit.index}
-          onChange={(e) =>
-            handleInputChange(rowIndex, unit.index, e.target.value)
+          onChange={(event) =>
+            handleInputChange(rowIndex, unit.index, event.target.value)
           }
           className={`w-full ${style.input}`}
           placeholder={unit.index}
@@ -260,10 +246,12 @@ const TableRow = ({
       <div className="pl-2 shrink-0	basis-1/2 snap-start">
         <input
           type="text"
+          value={description.value}
+          placeholder="D"
           className={`w-full ${style.input}`}
-          placeholder={description.active ? description.index : "D"}
-          readOnly={description.active ? false : true}
-          onClick={() => activateDescription(rowIndex)}
+          onChange={(event) =>
+            handleInputChange(rowIndex, description.index, event.target.value)
+          }
         />
       </div>
     </div>
