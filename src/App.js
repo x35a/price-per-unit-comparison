@@ -24,7 +24,7 @@ const Table = () => {
       this.description = {
         index: "description",
         value: undefined,
-        active: false,
+        active: false, // remove
       };
     }
   }
