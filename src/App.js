@@ -16,22 +16,6 @@ export default function App() {
 }
 
 const Table = () => {
-  const emptyRow = {
-    // cols:
-    price: { index: "price", value: undefined },
-    unit: { index: "unit", value: undefined },
-    rate: { index: "rate", value: undefined },
-    description: { index: "description", value: undefined, active: false },
-    addEmptyRow() {
-      return {
-        [this.price.index]: this.price.value,
-        [this.unit.index]: this.unit.value,
-        [this.rate.index]: this.rate.value,
-        descriptionIsActive: this.description.active,
-      };
-    },
-  };
-
   class Row {
     constructor() {
       this.price = { index: "price", value: undefined };
@@ -45,7 +29,6 @@ const Table = () => {
     }
   }
 
-  // const initialTableRows = [emptyRow.addEmptyRow(), emptyRow.addEmptyRow()];
   const initialTableRows = [new Row(), new Row()];
 
   const [history, setHistory] = useState([initialTableRows]);
