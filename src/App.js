@@ -154,10 +154,7 @@ const Table = () => {
           price={row.price}
           unit={row.unit}
           rate={row.rate}
-          priceIndex={emptyRow.price.index}
-          unitIndex={emptyRow.unit.index}
-          rateIndex={emptyRow.rate.index}
-          descriptionIndex={emptyRow.description.index}
+          description={row.description}
           bestRowIndex={bestRowIndex}
           handleInputChange={handleInputChange}
           removeRow={removeRow}
@@ -197,14 +194,10 @@ const TableRow = ({
   price,
   unit,
   rate,
-  priceIndex,
-  unitIndex,
-  rateIndex,
-  descriptionIndex,
+  description,
   bestRowIndex,
   handleInputChange,
   removeRow,
-  descriptionIsActive,
   activateDescription,
 }) => {
   const isBestRow = bestRowIndex === rowIndex;
@@ -234,7 +227,7 @@ const TableRow = ({
       <div className="pl-2 shrink-0	basis-1/5 snap-start">
         <input
           type="number"
-          placeholder={rate ?? rateIndex}
+          placeholder={rate.value ?? rate.index}
           readOnly
           className={`w-full ${style.input}`}
         />
@@ -242,31 +235,31 @@ const TableRow = ({
       <div className="pl-2 shrink-0	basis-1/5 snap-start">
         <input
           type="number"
-          value={price ?? priceIndex}
+          value={price.value ?? price.index}
           onChange={(e) =>
-            handleInputChange(rowIndex, priceIndex, e.target.value)
+            handleInputChange(rowIndex, price.index, e.target.value)
           }
           className={`w-full ${style.input}`}
-          placeholder={priceIndex}
+          placeholder={price.index}
         />
       </div>
       <div className="pl-2 shrink-0	basis-1/5 snap-start">
         <input
           type="number"
-          value={unit ?? unitIndex}
+          value={unit.value ?? unit.index}
           onChange={(e) =>
-            handleInputChange(rowIndex, unitIndex, e.target.value)
+            handleInputChange(rowIndex, unit.index, e.target.value)
           }
           className={`w-full ${style.input}`}
-          placeholder={unitIndex}
+          placeholder={unit.index}
         />
       </div>
       <div className="pl-2 shrink-0	basis-1/2 snap-start">
         <input
           type="text"
           className={`w-full ${style.input}`}
-          placeholder={descriptionIsActive ? descriptionIndex : "D"}
-          readOnly={descriptionIsActive ? false : true}
+          placeholder={description.active ? description.index : "D"}
+          readOnly={description.active ? false : true}
           onClick={() => activateDescription(rowIndex)}
         />
       </div>
