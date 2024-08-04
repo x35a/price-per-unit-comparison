@@ -59,13 +59,13 @@ const Table = () => {
   };
 
   const handleInputChange = (rowIndex, colIndex, inputValue) => {
-    const tableRowsCopy = history[historyPoint].map((row) => ({ ...row }));
+    const newTableRows = history[historyPoint].map((row) => ({ ...row }));
 
-    tableRowsCopy[rowIndex][colIndex] = inputValue;
+    newTableRows[rowIndex][colIndex] = inputValue;
 
-    tableRowsCopy[rowIndex].rate = getPriceToUnitRate(
-      tableRowsCopy[rowIndex].price,
-      tableRowsCopy[rowIndex].unit,
+    newTableRows[rowIndex].rate = getPriceToUnitRate(
+      newTableRows[rowIndex].price,
+      newTableRows[rowIndex].unit,
     );
 
     // if historyPoint is somewhere in the middle of the history array
@@ -74,10 +74,10 @@ const Table = () => {
       replaceAllHistorySnapsAfterHistoryPoint(
         history,
         historyPoint,
-        tableRowsCopy,
+        newTableRows,
       );
     } else {
-      replaceLastHistorySnap(history, tableRowsCopy);
+      replaceLastHistorySnap(history, newTableRows);
     }
   };
 
