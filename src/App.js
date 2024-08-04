@@ -21,12 +21,13 @@ const Table = () => {
     price: { index: "price", value: undefined },
     unit: { index: "unit", value: undefined },
     rate: { index: "rate", value: undefined },
-    description: { index: "description", value: undefined },
+    description: { index: "description", value: undefined, active: false },
     addEmptyRow() {
       return {
         [this.price.index]: this.price.value,
         [this.unit.index]: this.unit.value,
         [this.rate.index]: this.rate.value,
+        descriptionIsActive: this.description.active,
       };
     },
   };
@@ -116,6 +117,17 @@ const Table = () => {
   const goBack = () => setHistoryPoint(historyPoint - 1);
   const goForward = () => setHistoryPoint(historyPoint + 1);
 
+  const activateDescription = (rowIndex) => {
+    if (history[historyPoint][rowIndex].descriptionIsActive) return;
+    const newTableRows = history[historyPoint].map((row) => ({ ...row }));
+    newTableRows[rowIndex].descriptionIsActive = true;
+    replaceAllHistorySnapsAfterHistoryPoint(
+      history,
+      historyPoint,
+      newTableRows,
+    );
+  };
+
   console.log("historyPoint", historyPoint);
   console.log(history);
 
@@ -135,6 +147,8 @@ const Table = () => {
           bestRowIndex={bestRowIndex}
           handleInputChange={handleInputChange}
           removeRow={removeRow}
+          descriptionIsActive={row.descriptionIsActive}
+          activateDescription={activateDescription}
         />
       ))}
 
@@ -176,6 +190,8 @@ const TableRow = ({
   bestRowIndex,
   handleInputChange,
   removeRow,
+  descriptionIsActive,
+  activateDescription,
 }) => {
   const isBestRow = bestRowIndex === index;
 
@@ -231,7 +247,9 @@ const TableRow = ({
         <input
           type="text"
           className={`w-full ${style.input}`}
-          placeholder={descriptionIndex}
+          placeholder={descriptionIsActive ? descriptionIndex : "D"}
+          readOnly={descriptionIsActive ? false : true}
+          onClick={() => activateDescription(index)}
         />
       </div>
     </div>
