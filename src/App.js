@@ -16,8 +16,6 @@ export default function App() {
 }
 
 const Table = () => {
-  // do: click back button then add new row. add new row button works as forward.
-
   const emptyRow = {
     // cols:
     price: { index: "price", value: undefined },
@@ -43,43 +41,73 @@ const Table = () => {
     setBestRowIndex(findBestPriceRowIndex(history[historyPoint]));
   }, [history, historyPoint]);
 
+  const replaceLastHistorySnap = (history, newTableRows) => {
+    const newHistory = [...history.slice(0, -1), newTableRows];
+    setHistory(newHistory);
+    return newHistory;
+  };
+
+  const replaceAllHistorySnapsAfterHistoryPoint = (
+    history,
+    historyPoint,
+    newTableRows,
+  ) => {
+    const newHistory = [...history.slice(0, historyPoint + 1), newTableRows];
+    setHistoryPoint(historyPoint + 1);
+    setHistory(newHistory);
+    return newHistory;
+  };
+
   const handleInputChange = (rowIndex, colIndex, inputValue) => {
-    const tableRowsCopy = history[historyPoint].map((row) => ({ ...row }));
+    const newTableRows = history[historyPoint].map((row) => ({ ...row }));
 
-    tableRowsCopy[rowIndex][colIndex] = inputValue;
+    newTableRows[rowIndex][colIndex] = inputValue;
 
-    tableRowsCopy[rowIndex].rate = getPriceToUnitRate(
-      tableRowsCopy[rowIndex].price,
-      tableRowsCopy[rowIndex].unit,
+    newTableRows[rowIndex].rate = getPriceToUnitRate(
+      newTableRows[rowIndex].price,
+      newTableRows[rowIndex].unit,
     );
 
     // if historyPoint is somewhere in the middle of the history array
     // then discard everything after historyPoint
     if (historyPoint < history.length - 1) {
-      const newHistory = [...history.slice(0, historyPoint + 1), tableRowsCopy];
-      setHistoryPoint(historyPoint + 1);
-      setHistory(newHistory);
+      replaceAllHistorySnapsAfterHistoryPoint(
+        history,
+        historyPoint,
+        newTableRows,
+      );
     } else {
-      // raplace the last item in the history array
-      const newHistory = [...history.slice(0, -1), tableRowsCopy];
-      setHistory(newHistory);
+      replaceLastHistorySnap(history, newTableRows);
     }
   };
 
   const addNewRow = () => {
     const newTableRows = [...history[historyPoint], emptyRow.addEmptyRow()];
-    const newHistory = [...history.slice(0, historyPoint + 1), newTableRows];
-    setHistoryPoint(historyPoint + 1);
-    setHistory(newHistory);
+    replaceAllHistorySnapsAfterHistoryPoint(
+      history,
+      historyPoint,
+      newTableRows,
+    );
   };
 
   const removeRow = (rowIndex) => {
     const newTableRows = history[historyPoint].filter(
       (row, index) => index != rowIndex,
     );
-    const newHistory = [...history.slice(0, historyPoint + 1), newTableRows];
-    setHistoryPoint(historyPoint + 1);
-    setHistory(newHistory);
+    replaceAllHistorySnapsAfterHistoryPoint(
+      history,
+      historyPoint,
+      newTableRows,
+    );
+  };
+
+  const clearTable = () => {
+    const newTableRows = [emptyRow.addEmptyRow(), emptyRow.addEmptyRow()];
+    replaceAllHistorySnapsAfterHistoryPoint(
+      history,
+      historyPoint,
+      newTableRows,
+    );
   };
 
   const goBack = () => setHistoryPoint(historyPoint - 1);
@@ -107,7 +135,10 @@ const Table = () => {
         />
       ))}
 
-      <div className="my-7 text-center">
+      <div className="my-7 flex justify-center">
+        <button className={`mx-2 ${style.button}`} onClick={clearTable}>
+          clear
+        </button>
         <button
           className={`mx-2 ${style.button}`}
           onClick={goBack}
@@ -178,7 +209,7 @@ const TableRow = ({
       <div className="pl-2 shrink-0	basis-1/5 snap-start">
         <input
           type="number"
-          value={price}
+          value={price ?? priceIndex}
           onChange={(e) => handleInputChange(index, priceIndex, e.target.value)}
           className={`w-full ${style.input}`}
           placeholder={priceIndex}
@@ -187,7 +218,7 @@ const TableRow = ({
       <div className="pl-2 shrink-0	basis-1/5 snap-start">
         <input
           type="number"
-          value={unit}
+          value={unit ?? unitIndex}
           onChange={(e) => handleInputChange(index, unitIndex, e.target.value)}
           className={`w-full ${style.input}`}
           placeholder={unitIndex}
