@@ -63,10 +63,26 @@ const Table = () => {
 
     newTableRows[rowIndex][colIndex] = inputValue;
 
-    newTableRows[rowIndex].rate = getPriceToUnitRate(
-      newTableRows[rowIndex].price,
-      newTableRows[rowIndex].unit,
-    );
+    // console.log(
+    //   "price",
+    //   typeof history[historyPoint][rowIndex].price,
+    //   "unit",
+    //   typeof history[historyPoint][rowIndex].unit,
+    //   "inputValue",
+    //   typeof inputValue,
+    // );
+
+    // newTableRows[rowIndex].rate = getPriceToUnitRate(
+    //   newTableRows[rowIndex].price,
+    //   newTableRows[rowIndex].unit,
+    // );
+
+    newTableRows[rowIndex].rate =
+      newTableRows[rowIndex].price && newTableRows[rowIndex].unit
+        ? (newTableRows[rowIndex].price / newTableRows[rowIndex].unit).toFixed(
+            2,
+          )
+        : undefined;
 
     // if historyPoint is somewhere in the middle of the history array
     // then discard everything after historyPoint
@@ -235,10 +251,10 @@ const TableRow = ({
   );
 };
 
-function getPriceToUnitRate(price, unit) {
-  if (!price || !unit) return;
-  return (price / unit).toFixed(2);
-}
+// function getPriceToUnitRate(price, unit) {
+//   if (!price || !unit) return;
+//   return (price / unit).toFixed(2);
+// }
 
 function findBestPriceRowIndex(tableRows) {
   let rows = tableRows
