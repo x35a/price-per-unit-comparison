@@ -16,8 +16,6 @@ export default function App() {
 }
 
 const Table = () => {
-  // do: click back button then add new row. add new row button works as forward.
-
   const emptyRow = {
     // cols:
     price: { index: "price", value: undefined },
@@ -43,6 +41,23 @@ const Table = () => {
     setBestRowIndex(findBestPriceRowIndex(history[historyPoint]));
   }, [history, historyPoint]);
 
+  const replaceLastHistorySnap = (history, newTableRows) => {
+    const newHistory = [...history.slice(0, -1), newTableRows];
+    setHistory(newHistory);
+    return newHistory;
+  };
+
+  const replaceAllHistorySnapsAfterHistoryPoint = (
+    history,
+    historyPoint,
+    newTableRows,
+  ) => {
+    const newHistory = [...history.slice(0, historyPoint + 1), newTableRows];
+    setHistoryPoint(historyPoint + 1);
+    setHistory(newHistory);
+    return newHistory;
+  };
+
   const handleInputChange = (rowIndex, colIndex, inputValue) => {
     const tableRowsCopy = history[historyPoint].map((row) => ({ ...row }));
 
@@ -56,37 +71,43 @@ const Table = () => {
     // if historyPoint is somewhere in the middle of the history array
     // then discard everything after historyPoint
     if (historyPoint < history.length - 1) {
-      const newHistory = [...history.slice(0, historyPoint + 1), tableRowsCopy];
-      setHistoryPoint(historyPoint + 1);
-      setHistory(newHistory);
+      replaceAllHistorySnapsAfterHistoryPoint(
+        history,
+        historyPoint,
+        tableRowsCopy,
+      );
     } else {
-      // raplace the last item in the history array
-      const newHistory = [...history.slice(0, -1), tableRowsCopy];
-      setHistory(newHistory);
+      replaceLastHistorySnap(history, tableRowsCopy);
     }
   };
 
   const addNewRow = () => {
     const newTableRows = [...history[historyPoint], emptyRow.addEmptyRow()];
-    const newHistory = [...history.slice(0, historyPoint + 1), newTableRows];
-    setHistoryPoint(historyPoint + 1);
-    setHistory(newHistory);
+    replaceAllHistorySnapsAfterHistoryPoint(
+      history,
+      historyPoint,
+      newTableRows,
+    );
   };
 
   const removeRow = (rowIndex) => {
     const newTableRows = history[historyPoint].filter(
       (row, index) => index != rowIndex,
     );
-    const newHistory = [...history.slice(0, historyPoint + 1), newTableRows];
-    setHistoryPoint(historyPoint + 1);
-    setHistory(newHistory);
+    replaceAllHistorySnapsAfterHistoryPoint(
+      history,
+      historyPoint,
+      newTableRows,
+    );
   };
 
   const clearTable = () => {
     const newTableRows = [emptyRow.addEmptyRow(), emptyRow.addEmptyRow()];
-    const newHistory = [...history.slice(0, historyPoint + 1), newTableRows];
-    setHistoryPoint(historyPoint + 1);
-    setHistory(newHistory);
+    replaceAllHistorySnapsAfterHistoryPoint(
+      history,
+      historyPoint,
+      newTableRows,
+    );
   };
 
   const goBack = () => setHistoryPoint(historyPoint - 1);
