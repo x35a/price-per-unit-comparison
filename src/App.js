@@ -259,9 +259,10 @@ const TableRow = ({
 function findBestPriceRowIndex(tableRows) {
   let rows = tableRows
     .map((row, index) => ({ ...row, index: index }))
-    .filter((row) => row.price && row.unit);
+    .filter((row) => row.price && row.unit && row.rate);
+
   if (!rows.length) return;
-  rows = rows.map((row) => ({ ...row, rate: row.price / row.unit }));
+  //rows = rows.map((row) => ({ ...row, rate: row.price / row.unit }));
   rows.sort((a, b) => a.rate - b.rate);
   return rows[0].index;
 }
