@@ -74,15 +74,18 @@ const Table = () => {
   };
 
   const handleInputChange = (rowIndex, colIndex, inputValue) => {
-    const newTableRows = history[historyPoint].map((row) => ({ ...row }));
+    const newTableRows = history[historyPoint].map((row) =>
+      structuredClone(row),
+    );
 
-    newTableRows[rowIndex][colIndex] = inputValue;
+    newTableRows[rowIndex][colIndex].value = inputValue;
 
-    newTableRows[rowIndex].rate =
-      newTableRows[rowIndex].price && newTableRows[rowIndex].unit
-        ? (newTableRows[rowIndex].price / newTableRows[rowIndex].unit).toFixed(
-            2,
-          )
+    newTableRows[rowIndex].rate.value =
+      newTableRows[rowIndex].price.value && newTableRows[rowIndex].unit.value
+        ? (
+            newTableRows[rowIndex].price.value /
+            newTableRows[rowIndex].unit.value
+          ).toFixed(2)
         : undefined;
 
     // if historyPoint is somewhere in the middle of the history array
@@ -100,7 +103,7 @@ const Table = () => {
   };
 
   const addNewRow = () => {
-    const newTableRows = [...history[historyPoint], emptyRow.addEmptyRow()];
+    const newTableRows = [...history[historyPoint], new Row()];
     replaceAllHistorySnapsAfterHistoryPoint(
       history,
       historyPoint,
@@ -120,7 +123,7 @@ const Table = () => {
   };
 
   const clearTable = () => {
-    const newTableRows = [emptyRow.addEmptyRow(), emptyRow.addEmptyRow()];
+    const newTableRows = [new Row(), new Row()];
     replaceAllHistorySnapsAfterHistoryPoint(
       history,
       historyPoint,
@@ -270,9 +273,10 @@ const TableRow = ({
 function findBestPriceRowIndex(tableRows) {
   let rows = tableRows
     .map((row, index) => ({ ...row, index: index }))
-    .filter((row) => row.price && row.unit && row.rate);
+    .filter((row) => row.price.value && row.unit.value && row.rate.value);
+  // leave row.rate.value only
 
   if (!rows.length) return;
-  rows.sort((a, b) => a.rate - b.rate);
+  rows.sort((a, b) => a.rate.value - b.rate.value);
   return rows[0].index;
 }
