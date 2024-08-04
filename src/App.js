@@ -213,7 +213,7 @@ const TableRow = ({
         </button>
       </div>
 
-      <div className="pl-2 shrink-0	basis-1/5 snap-start">
+      <div className="pl-1 shrink-0	basis-1/5 snap-start">
         <input
           type="number"
           placeholder={rate.value ?? rate.index}
@@ -221,7 +221,7 @@ const TableRow = ({
           className={`w-full ${style.input}`}
         />
       </div>
-      <div className="pl-2 shrink-0	basis-1/5 snap-start">
+      <div className="pl-1 shrink-0	basis-1/4 snap-start">
         <input
           type="number"
           value={price.value ?? price.index}
@@ -232,7 +232,7 @@ const TableRow = ({
           placeholder={price.index}
         />
       </div>
-      <div className="pl-2 shrink-0	basis-1/5 snap-start">
+      <div className="pl-1 shrink-0	basis-1/4 snap-start">
         <input
           type="number"
           value={unit.value ?? unit.index}
@@ -243,7 +243,7 @@ const TableRow = ({
           placeholder={unit.index}
         />
       </div>
-      <div className="pl-2 shrink-0	basis-1/2 snap-start">
+      <div className="pl-1 shrink-0	basis-2/5 snap-start">
         <input
           type="text"
           value={description.value}
