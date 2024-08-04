@@ -82,6 +82,13 @@ const Table = () => {
     setHistory(newHistory);
   };
 
+  const clearTable = () => {
+    const newTableRows = [emptyRow.addEmptyRow(), emptyRow.addEmptyRow()];
+    const newHistory = [...history.slice(0, historyPoint + 1), newTableRows];
+    setHistoryPoint(historyPoint + 1);
+    setHistory(newHistory);
+  };
+
   const goBack = () => setHistoryPoint(historyPoint - 1);
   const goForward = () => setHistoryPoint(historyPoint + 1);
 
@@ -107,7 +114,10 @@ const Table = () => {
         />
       ))}
 
-      <div className="my-7 text-center">
+      <div className="my-7 flex justify-center">
+        <button className={`mx-2 ${style.button}`} onClick={clearTable}>
+          clear
+        </button>
         <button
           className={`mx-2 ${style.button}`}
           onClick={goBack}
@@ -178,7 +188,7 @@ const TableRow = ({
       <div className="pl-2 shrink-0	basis-1/5 snap-start">
         <input
           type="number"
-          value={price}
+          value={price ?? priceIndex}
           onChange={(e) => handleInputChange(index, priceIndex, e.target.value)}
           className={`w-full ${style.input}`}
           placeholder={priceIndex}
@@ -187,7 +197,7 @@ const TableRow = ({
       <div className="pl-2 shrink-0	basis-1/5 snap-start">
         <input
           type="number"
-          value={unit}
+          value={unit ?? unitIndex}
           onChange={(e) => handleInputChange(index, unitIndex, e.target.value)}
           className={`w-full ${style.input}`}
           placeholder={unitIndex}
