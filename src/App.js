@@ -32,7 +32,21 @@ const Table = () => {
     },
   };
 
-  const initialTableRows = [emptyRow.addEmptyRow(), emptyRow.addEmptyRow()];
+  class Row {
+    constructor() {
+      this.price = { index: "price", value: undefined };
+      this.unit = { index: "unit", value: undefined };
+      this.rate = { index: "rate", value: undefined };
+      this.description = {
+        index: "description",
+        value: undefined,
+        active: false,
+      };
+    }
+  }
+
+  // const initialTableRows = [emptyRow.addEmptyRow(), emptyRow.addEmptyRow()];
+  const initialTableRows = [new Row(), new Row()];
 
   const [history, setHistory] = useState([initialTableRows]);
   const [historyPoint, setHistoryPoint] = useState(history.length - 1);
@@ -136,7 +150,7 @@ const Table = () => {
       {history[historyPoint].map((row, index) => (
         <TableRow
           key={index}
-          index={index}
+          rowIndex={index}
           price={row.price}
           unit={row.unit}
           rate={row.rate}
@@ -179,7 +193,7 @@ const Table = () => {
 };
 
 const TableRow = ({
-  index,
+  rowIndex,
   price,
   unit,
   rate,
@@ -193,7 +207,7 @@ const TableRow = ({
   descriptionIsActive,
   activateDescription,
 }) => {
-  const isBestRow = bestRowIndex === index;
+  const isBestRow = bestRowIndex === rowIndex;
 
   return (
     <div
@@ -209,7 +223,7 @@ const TableRow = ({
       <div className="flex snap-start">
         <button
           onClick={() => {
-            removeRow(index);
+            removeRow(rowIndex);
           }}
           className={style.buttonRed}
         >
@@ -229,7 +243,9 @@ const TableRow = ({
         <input
           type="number"
           value={price ?? priceIndex}
-          onChange={(e) => handleInputChange(index, priceIndex, e.target.value)}
+          onChange={(e) =>
+            handleInputChange(rowIndex, priceIndex, e.target.value)
+          }
           className={`w-full ${style.input}`}
           placeholder={priceIndex}
         />
@@ -238,7 +254,9 @@ const TableRow = ({
         <input
           type="number"
           value={unit ?? unitIndex}
-          onChange={(e) => handleInputChange(index, unitIndex, e.target.value)}
+          onChange={(e) =>
+            handleInputChange(rowIndex, unitIndex, e.target.value)
+          }
           className={`w-full ${style.input}`}
           placeholder={unitIndex}
         />
@@ -249,7 +267,7 @@ const TableRow = ({
           className={`w-full ${style.input}`}
           placeholder={descriptionIsActive ? descriptionIndex : "D"}
           readOnly={descriptionIsActive ? false : true}
-          onClick={() => activateDescription(index)}
+          onClick={() => activateDescription(rowIndex)}
         />
       </div>
     </div>
