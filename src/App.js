@@ -20,7 +20,7 @@ const Table = () => {
     constructor() {
       this.price = { index: "price", value: "" };
       this.unit = { index: "unit", value: "" };
-      this.rate = { index: "rate", value: "" };
+      this.rate = { index: "rate", value: undefined };
       this.description = { index: "description", value: "" };
     }
   }
@@ -185,7 +185,7 @@ const TableRow = ({
       <div className="px-1 snap-start shrink-0 basis-1/4">
         <input
           type="number"
-          placeholder={rate.value}
+          placeholder={rate.value ?? rate.index}
           readOnly
           className={`w-full ${style.input}`}
         />
