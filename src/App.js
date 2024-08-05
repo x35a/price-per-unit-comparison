@@ -5,7 +5,7 @@ import * as icon from "./icons";
 const style = {
   button:
     "bg-blue-500 hover:bg-blue-700 disabled:bg-gray-300 text-white py-2 px-4 rounded",
-  buttonRed: "bg-red-500 hover:bg-red-700 text-white px-1 rounded",
+  buttonRed: "px-2 bg-red-500 hover:bg-red-700 text-white rounded",
   input:
     "dark:bg-gray-700 dark:opacity-80 dark:text-white border border-gray-300 rounded-md py-2 px-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
   highlightTableRow: "bg-green-400",
@@ -183,20 +183,10 @@ const TableRow = ({
       snap-mandatory
       mt-4 
       first:mt-0 
+      rounded
       ${isBestRow ? style.highlightTableRow : ""}`}
     >
-      <div className="flex snap-start">
-        <button
-          onClick={() => {
-            removeRow(rowIndex);
-          }}
-          className={style.buttonRed}
-        >
-          {icon.trash}
-        </button>
-      </div>
-
-      <div className="pl-1 shrink-0	basis-1/5 snap-start">
+      <div className="px-1 snap-start shrink-0 basis-1/4">
         <input
           type="number"
           placeholder={rate.value ?? rate.index}
@@ -204,7 +194,7 @@ const TableRow = ({
           className={`w-full ${style.input}`}
         />
       </div>
-      <div className="pl-1 shrink-0	basis-1/4 snap-start">
+      <div className="px-1 snap-start shrink-0 basis-1/4">
         <input
           type="number"
           value={price.value ?? price.index}
@@ -215,7 +205,7 @@ const TableRow = ({
           placeholder={price.index}
         />
       </div>
-      <div className="pl-1 shrink-0	basis-1/4 snap-start">
+      <div className="px-1 snap-start shrink-0 basis-1/4">
         <input
           type="number"
           value={unit.value ?? unit.index}
@@ -226,7 +216,9 @@ const TableRow = ({
           placeholder={unit.index}
         />
       </div>
-      <div className="pl-1 shrink-0	basis-2/5 snap-start">
+      <div
+        className={`px-1 snap-start shrink-0 ${description.value ? "basis-1/2" : "basis-1/4"}`}
+      >
         <input
           type="text"
           value={description.value}
@@ -236,6 +228,17 @@ const TableRow = ({
             handleInputChange(rowIndex, description.index, event.target.value)
           }
         />
+      </div>
+
+      <div className="px-1 snap-start flex">
+        <button
+          onClick={() => {
+            removeRow(rowIndex);
+          }}
+          className={style.buttonRed}
+        >
+          {icon.trash}
+        </button>
       </div>
     </div>
   );
