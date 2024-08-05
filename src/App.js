@@ -133,9 +133,6 @@ const Table = () => {
       ))}
 
       <div className="my-7 flex justify-center">
-        <button className={`mx-2 ${style.button}`} onClick={clearTable}>
-          clear
-        </button>
         <button
           className={`mx-2 ${style.button}`}
           onClick={goBack}
@@ -149,6 +146,9 @@ const Table = () => {
           disabled={historyPoint < history.length - 1 ? false : true}
         >
           {icon.arrowRight}
+        </button>
+        <button className={`mx-2 ${style.button}`} onClick={clearTable}>
+          clear
         </button>
         <button className={`mx-2 ${style.button}`} onClick={addNewRow}>
           {icon.plus}
