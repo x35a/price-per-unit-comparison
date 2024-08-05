@@ -21,11 +21,7 @@ const Table = () => {
       this.price = { index: "price", value: undefined };
       this.unit = { index: "unit", value: undefined };
       this.rate = { index: "rate", value: undefined };
-      this.description = {
-        index: "description",
-        value: undefined,
-        active: false, // remove
-      };
+      this.description = { index: "description", value: undefined };
     }
   }
 
