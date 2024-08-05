@@ -18,10 +18,10 @@ export default function App() {
 const Table = () => {
   class Row {
     constructor() {
-      this.price = { index: "price", value: undefined };
-      this.unit = { index: "unit", value: undefined };
-      this.rate = { index: "rate", value: undefined };
-      this.description = { index: "description", value: undefined };
+      this.price = { index: "price", value: "" };
+      this.unit = { index: "unit", value: "" };
+      this.rate = { index: "rate", value: "" };
+      this.description = { index: "description", value: "" };
     }
   }
 
@@ -185,7 +185,7 @@ const TableRow = ({
       <div className="px-1 snap-start shrink-0 basis-1/4">
         <input
           type="number"
-          placeholder={rate.value ?? rate.index}
+          placeholder={rate.value}
           readOnly
           className={`w-full ${style.input}`}
         />
@@ -193,7 +193,7 @@ const TableRow = ({
       <div className="px-1 snap-start shrink-0 basis-1/4">
         <input
           type="number"
-          value={price.value ?? price.index}
+          value={price.value}
           onChange={(event) =>
             handleInputChange(rowIndex, price.index, event.target.value)
           }
@@ -204,7 +204,7 @@ const TableRow = ({
       <div className="px-1 snap-start shrink-0 basis-1/4">
         <input
           type="number"
-          value={unit.value ?? unit.index}
+          value={unit.value}
           onChange={(event) =>
             handleInputChange(rowIndex, unit.index, event.target.value)
           }
