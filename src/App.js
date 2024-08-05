@@ -5,7 +5,7 @@ import * as icon from "./icons";
 const style = {
   button:
     "bg-blue-500 hover:bg-blue-700 disabled:bg-gray-300 text-white py-2 px-4 rounded",
-  buttonRed: "bg-red-500 hover:bg-red-700 text-white px-1 rounded",
+  buttonRed: "px-2 bg-red-500 hover:bg-red-700 text-white rounded",
   input:
     "dark:bg-gray-700 dark:opacity-80 dark:text-white border border-gray-300 rounded-md py-2 px-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
   highlightTableRow: "bg-green-400",
@@ -16,22 +16,16 @@ export default function App() {
 }
 
 const Table = () => {
-  const emptyRow = {
-    // cols:
-    price: { index: "price", value: undefined },
-    unit: { index: "unit", value: undefined },
-    rate: { index: "rate", value: undefined },
-    description: { index: "description", value: undefined },
-    addEmptyRow() {
-      return {
-        [this.price.index]: this.price.value,
-        [this.unit.index]: this.unit.value,
-        [this.rate.index]: this.rate.value,
-      };
-    },
-  };
+  class Row {
+    constructor() {
+      this.price = { index: "price", value: "" };
+      this.unit = { index: "unit", value: "" };
+      this.rate = { index: "rate", value: "" };
+      this.description = { index: "description", value: "" };
+    }
+  }
 
-  const initialTableRows = [emptyRow.addEmptyRow(), emptyRow.addEmptyRow()];
+  const initialTableRows = [new Row(), new Row()];
 
   const [history, setHistory] = useState([initialTableRows]);
   const [historyPoint, setHistoryPoint] = useState(history.length - 1);
@@ -59,15 +53,18 @@ const Table = () => {
   };
 
   const handleInputChange = (rowIndex, colIndex, inputValue) => {
-    const newTableRows = history[historyPoint].map((row) => ({ ...row }));
+    const newTableRows = history[historyPoint].map((row) =>
+      structuredClone(row),
+    );
 
-    newTableRows[rowIndex][colIndex] = inputValue;
+    newTableRows[rowIndex][colIndex].value = inputValue;
 
-    newTableRows[rowIndex].rate =
-      newTableRows[rowIndex].price && newTableRows[rowIndex].unit
-        ? (newTableRows[rowIndex].price / newTableRows[rowIndex].unit).toFixed(
-            2,
-          )
+    newTableRows[rowIndex].rate.value =
+      newTableRows[rowIndex].price.value && newTableRows[rowIndex].unit.value
+        ? (
+            newTableRows[rowIndex].price.value /
+            newTableRows[rowIndex].unit.value
+          ).toFixed(2)
         : undefined;
 
     // if historyPoint is somewhere in the middle of the history array
@@ -85,7 +82,7 @@ const Table = () => {
   };
 
   const addNewRow = () => {
-    const newTableRows = [...history[historyPoint], emptyRow.addEmptyRow()];
+    const newTableRows = [...history[historyPoint], new Row()];
     replaceAllHistorySnapsAfterHistoryPoint(
       history,
       historyPoint,
@@ -105,7 +102,7 @@ const Table = () => {
   };
 
   const clearTable = () => {
-    const newTableRows = [emptyRow.addEmptyRow(), emptyRow.addEmptyRow()];
+    const newTableRows = [new Row(), new Row()];
     replaceAllHistorySnapsAfterHistoryPoint(
       history,
       historyPoint,
@@ -124,14 +121,11 @@ const Table = () => {
       {history[historyPoint].map((row, index) => (
         <TableRow
           key={index}
-          index={index}
+          rowIndex={index}
           price={row.price}
           unit={row.unit}
           rate={row.rate}
-          priceIndex={emptyRow.price.index}
-          unitIndex={emptyRow.unit.index}
-          rateIndex={emptyRow.rate.index}
-          descriptionIndex={emptyRow.description.index}
+          description={row.description}
           bestRowIndex={bestRowIndex}
           handleInputChange={handleInputChange}
           removeRow={removeRow}
@@ -165,19 +159,16 @@ const Table = () => {
 };
 
 const TableRow = ({
-  index,
+  rowIndex,
   price,
   unit,
   rate,
-  priceIndex,
-  unitIndex,
-  rateIndex,
-  descriptionIndex,
+  description,
   bestRowIndex,
   handleInputChange,
   removeRow,
 }) => {
-  const isBestRow = bestRowIndex === index;
+  const isBestRow = bestRowIndex === rowIndex;
 
   return (
     <div
@@ -188,51 +179,62 @@ const TableRow = ({
       snap-mandatory
       mt-4 
       first:mt-0 
+      rounded
       ${isBestRow ? style.highlightTableRow : ""}`}
     >
-      <div className="flex snap-start">
+      <div className="px-1 snap-start shrink-0 basis-1/4">
+        <input
+          type="number"
+          placeholder={rate.value}
+          readOnly
+          className={`w-full ${style.input}`}
+        />
+      </div>
+      <div className="px-1 snap-start shrink-0 basis-1/4">
+        <input
+          type="number"
+          value={price.value}
+          onChange={(event) =>
+            handleInputChange(rowIndex, price.index, event.target.value)
+          }
+          className={`w-full ${style.input}`}
+          placeholder={price.index}
+        />
+      </div>
+      <div className="px-1 snap-start shrink-0 basis-1/4">
+        <input
+          type="number"
+          value={unit.value}
+          onChange={(event) =>
+            handleInputChange(rowIndex, unit.index, event.target.value)
+          }
+          className={`w-full ${style.input}`}
+          placeholder={unit.index}
+        />
+      </div>
+      <div
+        className={`px-1 snap-start shrink-0 ${description.value ? "basis-1/2" : "basis-1/4"}`}
+      >
+        <input
+          type="text"
+          value={description.value}
+          placeholder="D"
+          className={`w-full ${style.input}`}
+          onChange={(event) =>
+            handleInputChange(rowIndex, description.index, event.target.value)
+          }
+        />
+      </div>
+
+      <div className="px-1 snap-start flex">
         <button
           onClick={() => {
-            removeRow(index);
+            removeRow(rowIndex);
           }}
           className={style.buttonRed}
         >
           {icon.trash}
         </button>
-      </div>
-
-      <div className="pl-2 shrink-0	basis-1/5 snap-start">
-        <input
-          type="number"
-          placeholder={rate ?? rateIndex}
-          readOnly
-          className={`w-full ${style.input}`}
-        />
-      </div>
-      <div className="pl-2 shrink-0	basis-1/5 snap-start">
-        <input
-          type="number"
-          value={price ?? priceIndex}
-          onChange={(e) => handleInputChange(index, priceIndex, e.target.value)}
-          className={`w-full ${style.input}`}
-          placeholder={priceIndex}
-        />
-      </div>
-      <div className="pl-2 shrink-0	basis-1/5 snap-start">
-        <input
-          type="number"
-          value={unit ?? unitIndex}
-          onChange={(e) => handleInputChange(index, unitIndex, e.target.value)}
-          className={`w-full ${style.input}`}
-          placeholder={unitIndex}
-        />
-      </div>
-      <div className="pl-2 shrink-0	basis-1/2 snap-start">
-        <input
-          type="text"
-          className={`w-full ${style.input}`}
-          placeholder={descriptionIndex}
-        />
       </div>
     </div>
   );
@@ -241,9 +243,9 @@ const TableRow = ({
 function findBestPriceRowIndex(tableRows) {
   let rows = tableRows
     .map((row, index) => ({ ...row, index: index }))
-    .filter((row) => row.price && row.unit && row.rate);
+    .filter((row) => row.rate.value);
 
   if (!rows.length) return;
-  rows.sort((a, b) => a.rate - b.rate);
+  rows.sort((a, b) => a.rate.value - b.rate.value);
   return rows[0].index;
 }
