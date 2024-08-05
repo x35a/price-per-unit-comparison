@@ -4,7 +4,7 @@ import * as icon from "./icons";
 
 const style = {
   button:
-    "bg-blue-500 hover:bg-blue-700 disabled:bg-gray-300 text-white py-2 px-4 rounded",
+    "bg-blue-500 hover:bg-blue-700 disabled:opacity-50 text-white py-2 px-4 rounded",
   buttonRed: "px-2 bg-red-500 hover:bg-red-700 text-white rounded",
   input:
     "dark:bg-gray-700 dark:opacity-80 dark:text-white border border-gray-300 rounded-md py-2 px-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
